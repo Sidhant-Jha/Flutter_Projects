@@ -39,6 +39,7 @@ class HomeScreen extends StatelessWidget {
                 );
               },
               listener: (context, state) {
+              if (ModalRoute.of(context)?.isCurrent == true) {
                 if (state.wasIncrement) {
                   ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                     content: Text("Incremented Bitch"),
@@ -50,6 +51,7 @@ class HomeScreen extends StatelessWidget {
                     duration: Duration(seconds: 1),
                   ));
                 }
+              }
               },
             ),
             SizedBox(
@@ -78,18 +80,12 @@ class HomeScreen extends StatelessWidget {
               color: color,
               child: Text("Go to Second Screen"),
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (_) => BlocProvider.value(
-                          value: context.read<CounterCubit>(),//CounterCubit() this creates a new instance and context.bloc is deprecated
-                          child: SecondScreen(
-                              title: "Second Screen", color: Colors.orange),
-                        )));
+                Navigator.of(context).pushNamed('/second');
               },
             )
           ],
         ),
       ),
-      // ),
     );
   }
 }
