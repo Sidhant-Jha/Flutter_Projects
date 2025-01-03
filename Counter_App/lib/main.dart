@@ -12,32 +12,33 @@ void main() {
   runApp(MyApp());
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
   MyApp({super.key});
 
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   final AppRoute _appRoute = AppRoute();
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider<CounterCubit>(
-      create: (context) => CounterCubit(),
-      child: MaterialApp(
+    return MaterialApp(
         onGenerateRoute: _appRoute.onGenerateRoute,
         title: 'Flutter Demo',
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
+          useMaterial3: true
         ),
-        home: HomeScreen(title: "HomeScreen", color: Colors.blueAccent),
-      ),
-    );
+        // home: HomeScreen(title: "HomeScreen", color: Colors.blueAccent),
+      );
   }
 
   // @override
   // void dispose()
   // {
-  //   _counterCubit.close();
+  //   // _counterCubit.close();
   //   super.dispose();
   // }
-  // don't know how without dispose it is working 
 }
