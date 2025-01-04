@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:todo_bloc/constants/enums.dart';
 import 'package:todo_bloc/logic/cubit/counter_cubit.dart';
 import 'package:todo_bloc/logic/cubit/counter_state.dart';
+import 'package:todo_bloc/logic/cubit/internet_cubit.dart';
+import 'package:todo_bloc/logic/cubit/internet_state.dart';
 import 'package:todo_bloc/presentation/screens/second_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -21,6 +24,21 @@ class HomeScreen extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            BlocBuilder<InternetCubit, InternetState>(builder: (context, state)
+              {
+              if(state is InternetConnected && state.connectionType == ConnectionType.wifi) {
+                return Text("Wifi");
+              } else if(state is InternetConnected && state.connectionType == ConnectionType.mobile) {
+                return Text("Mobile");
+              } else if(state is InternetConnected && state.connectionType == ConnectionType.bluetooth) {
+                return Text("Bluetooth");
+              } else if (state is InternetDisconnected) {
+                return Text('Disconnected');
+              }
+
+              return CircularProgressIndicator();
+            }),
+
             const Text(
               'You have pushed the button this many times:',
             ),
