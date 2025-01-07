@@ -17,5 +17,3 @@ class InternetConnected extends InternetState{
 class InternetDisconnected extends InternetState{
 
 }
-
-
