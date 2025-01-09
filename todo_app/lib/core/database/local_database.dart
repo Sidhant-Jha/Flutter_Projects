@@ -1,4 +1,7 @@
+import 'dart:developer';
+
 import 'package:sqflite/sqflite.dart';
+
 
 class LocalDatabase {
 
@@ -8,16 +11,16 @@ late final Database database;
 
 Future<void> createDatabase() async {
 
-   var databasesPath = await getDatabasesPath();
+  var databasesPath = await getDatabasesPath();
   String path = '$databasesPath/my_database.db';
 
   final database = await openDatabase(path, version: 1, onCreate: (db, version) async
   {
-    print('Database created at $path!');
+    log('Database created at $path!');
     await db.execute(
       'CREATE TABLE todos (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, description TEXT, category TEXT NOT NULL, priority TEXT NOT NULL, status TEXT NOT NULL, createdAt INTEGER NOT NULL, updatedAt INTEGER, deletedAt INTEGER)',
     );
-    print('Created table todos!');
+    log('Created table todos!');
   });
 
 
