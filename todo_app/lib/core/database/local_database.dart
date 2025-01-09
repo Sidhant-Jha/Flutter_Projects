@@ -23,6 +23,5 @@ Future<void> createDatabase() async {
     log('Created table todos!');
   });
 
-
 }
 } 

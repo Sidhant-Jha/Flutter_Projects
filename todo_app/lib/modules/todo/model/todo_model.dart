@@ -3,7 +3,8 @@ import 'package:todo_app/modules/todo/model/todo_priority.dart';
 import 'package:todo_app/modules/todo/model/todo_status.dart';
 
 class TodoModel {
-  final int id;
+  
+  final int? id;
   final String title;
   final String? description;
   final TodoCategory category;
@@ -14,7 +15,7 @@ class TodoModel {
   final DateTime? deletedAt;
 
   const TodoModel({
-    required this.id,
+    this.id,
     required this.title,
     this.description,
     required this.category,
@@ -25,5 +26,24 @@ class TodoModel {
     this.deletedAt,
   });
 
-  // Map
+  Map<String, dynamic> toDatabaseMap()
+  {
+    return {
+      'title' : title.trim(),
+      'description' : description?.trim(),
+      'category' : category.name,
+      'priority' : priority.name,
+      'status' : status.name,
+      'createdAt' : createdAt.millisecondsSinceEpoch,
+      'updatedAt' : updatedAt?.millisecondsSinceEpoch,
+      'deletedAt' : deletedAt?.millisecondsSinceEpoch
+    };
+  }
+
+  TodoModel copyWith({ int? id })
+  {
+    return TodoModel(id: id ?? this.id, title: title, category: category, priority: priority, status: status, createdAt: createdAt);
+  }
+
+
 }
