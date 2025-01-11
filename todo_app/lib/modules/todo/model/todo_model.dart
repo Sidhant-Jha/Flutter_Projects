@@ -3,7 +3,7 @@ import 'package:todo_app/modules/todo/model/todo_priority.dart';
 import 'package:todo_app/modules/todo/model/todo_status.dart';
 
 class TodoModel {
-  
+
   final int? id;
   final String title;
   final String? description;
@@ -25,6 +25,21 @@ class TodoModel {
     this.updatedAt,
     this.deletedAt,
   });
+
+  factory TodoModel.fromDatabaseMap(Map<String, dynamic> map)
+  {
+    return TodoModel(
+     id: map['id'] as int,
+     title: map['title'] as String,
+     description: map['description'] as String,
+     category: mapToTodoCategory(map['category'] as String),
+     priority: mapToTodoPriority(map['priority'] as String),
+     status: mapToTodoStatus(map['status'] as String),
+     createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int),
+     updatedAt: DateTime.fromMillisecondsSinceEpoch(map['updatedAt'] as int),
+     deletedAt: DateTime.fromMillisecondsSinceEpoch(map['deletedAt'] as int),
+     );
+  }
 
   Map<String, dynamic> toDatabaseMap()
   {
