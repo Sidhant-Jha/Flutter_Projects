@@ -5,6 +5,7 @@ import 'package:profile_view/home_screen.dart';
 void main() {
   runApp(
     MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Application()
     )
   );

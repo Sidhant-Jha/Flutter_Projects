@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:profile_view/detail_screen.dart';
 import 'package:profile_view/user_provider.dart';
 import 'package:provider/provider.dart';
 
@@ -10,7 +11,28 @@ class HomeScreen extends StatelessWidget {
     final userProvider = context.read<UserProvider>();
     return Scaffold(
       appBar:  AppBar(
-        title: Text('User Profile'),
+        title: Text('Books View'),
+        actions: [
+          PopupMenuButton(
+            position: PopupMenuPosition.under,
+            itemBuilder: (context) => [PopupMenuItem(
+              onTap: () 
+              {
+                context.read<UserProvider>().sortListOfUser();
+              },
+              child: Text('Sort by Size')
+            ),
+            PopupMenuItem(
+              onTap: () 
+              {
+                context.read<UserProvider>().fetchUser();
+                
+              },
+              child: Text('Remove Sort')
+            )
+            ]
+          ),
+        ],
       ),
       body: context.watch<UserProvider>().isLoading ? Center(child: const CircularProgressIndicator(),) :
       ListView.builder(
@@ -22,9 +44,15 @@ class HomeScreen extends StatelessWidget {
             leading: CircleAvatar(
               backgroundImage: NetworkImage(user.picture),
             ),
-            title: Text(user.name),
-            subtitle: Text(user.email),
+            title: Text(user.title),
+            subtitle: Text(user.subtitle),
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(builder: (_) => ChangeNotifierProvider.value(
+                value: context.read<UserProvider>(),
+                child: DetailScreen(user: user))));
+            },
           );
+
         }
       ),
       floatingActionButton: FloatingActionButton(

@@ -14,6 +14,20 @@ class UserProvider extends ChangeNotifier
   List<User> _users = [];
   List<User> get users => _users;
 
+  bool description = false;
+
+  void showDescription()
+  {
+    description = !description;
+    notifyListeners();
+  }
+
+  void sortListOfUser()
+  {
+    _users.sort((a, b) => a.price.compareTo(b.price));
+    notifyListeners();
+  }
+  
   Future<void> fetchUser() async
   {
     _isLoading = true;
