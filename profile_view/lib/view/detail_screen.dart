@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:profile_view/application.dart';
-import 'package:profile_view/user_model.dart';
-import 'package:profile_view/user_provider.dart';
+import 'package:profile_view/model/user_model.dart';
+import 'package:profile_view/view_model/user_provider.dart';
 import 'package:provider/provider.dart';
 
 class DetailScreen extends StatelessWidget {
@@ -38,9 +38,6 @@ class DetailScreen extends StatelessWidget {
                   SizedBox(height: 5,),
                   Text('Price : ${user.price}', style: Theme.of(context).textTheme.titleMedium,),
                   SizedBox(height: 5,),
-                  // Row(
-                  //   children: [
-                      // Text('Description : ', style: Theme.of(context).textTheme.titleSmall,),
                       GestureDetector(
                         onTap: ()
                         {
@@ -63,11 +60,7 @@ class DetailScreen extends StatelessWidget {
                          ) :
                         Text( "Description : ....", style: Theme.of(context).textTheme.titleMedium),
                       ),
-                      
-                  //   ],
-                  // ),
                   SizedBox(height: 5,),
-                  // Text('Link to Buy : ${user.buyLink}', style: Theme.of(context).textTheme.titleMedium?.copyWith(color: Colors.blue),),
                   RichText(text: 
                     TextSpan(
                       children: [
@@ -84,14 +77,6 @@ class DetailScreen extends StatelessWidget {
                       )
                 ],
               )
-            //         title;
-            // final String subtitle;
-            // final String publisher;
-            // final String picture;
-            // final String price;
-            // final String description;
-            // final String buyLink;
-              
             ],
           ),
         ),

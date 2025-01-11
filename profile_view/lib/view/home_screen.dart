@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:profile_view/detail_screen.dart';
-import 'package:profile_view/user_provider.dart';
+import 'package:profile_view/view/detail_screen.dart';
+import 'package:profile_view/view_model/user_provider.dart';
 import 'package:provider/provider.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -11,7 +11,7 @@ class HomeScreen extends StatelessWidget {
     final userProvider = context.read<UserProvider>();
     return Scaffold(
       appBar:  AppBar(
-        title: Text('Books View'),
+        title: Text('Books'),
         actions: [
           PopupMenuButton(
             position: PopupMenuPosition.under,
@@ -26,7 +26,6 @@ class HomeScreen extends StatelessWidget {
               onTap: () 
               {
                 context.read<UserProvider>().fetchUser();
-                
               },
               child: Text('Remove Sort')
             )
@@ -34,7 +33,7 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      body: context.watch<UserProvider>().isLoading ? Center(child: const CircularProgressIndicator(),) :
+      body: context.watch<UserProvider>().isLoading ? const Center(child: CircularProgressIndicator(),) :
       ListView.builder(
         itemCount: userProvider.users.length,
         itemBuilder: (context, index)

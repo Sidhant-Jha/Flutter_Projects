@@ -1,8 +1,8 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
-import 'package:profile_view/api_service.dart';
-import 'package:profile_view/user_model.dart';
+import 'package:profile_view/service/api_service.dart';
+import 'package:profile_view/model/user_model.dart';
 
 class UserProvider extends ChangeNotifier
 {
@@ -27,7 +27,7 @@ class UserProvider extends ChangeNotifier
     _users.sort((a, b) => a.price.compareTo(b.price));
     notifyListeners();
   }
-  
+
   Future<void> fetchUser() async
   {
     _isLoading = true;

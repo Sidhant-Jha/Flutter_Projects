@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:profile_view/user_model.dart';
+import 'package:profile_view/model/user_model.dart';
 class ApiService {
 
   final String _baseUrl = "https://api.freeapi.app/api/v1/public/books";
