@@ -11,6 +11,7 @@ class TodoLocalDatabaseService {
   {
     try{
       final id = await _db.insert('todos', model.toDatabaseMap());
+      await Future.delayed(Duration(seconds: 3));
       log('Created todo id : $id');
       return model.copyWith(id: id);
     }

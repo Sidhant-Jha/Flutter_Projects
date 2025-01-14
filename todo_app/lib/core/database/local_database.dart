@@ -14,7 +14,7 @@ Future<void> createDatabase() async {
   var databasesPath = await getDatabasesPath();
   String path = '$databasesPath/my_database.db';
 
-  final database = await openDatabase(path, version: 1, onCreate: (db, version) async
+  database = await openDatabase(path, version: 1, onCreate: (db, version) async
   {
     log('Database created at $path!');
     await db.execute(
