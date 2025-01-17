@@ -90,7 +90,7 @@ class _CreateTodoScreenState extends State<CreateTodoScreen> {
               ),
           )
         ),
-        CreateTodoLoaderOverlay()
+        CreateTodoLoaderOverlay(string: "Saving",)
       ],
     );
   }

@@ -49,7 +49,7 @@ class ViewTodoScreen extends StatelessWidget {
             ),
           ),
         ),
-        CreateTodoLoaderOverlay()
+        CreateTodoLoaderOverlay(string: "Loading",)
       ],
     );
   }

@@ -5,8 +5,10 @@ import 'package:todo_app/modules/todo/view_model/todo_view_model.dart';
 class CreateTodoLoaderOverlay extends StatelessWidget {
   const CreateTodoLoaderOverlay({
     super.key,
+    required this.string
   });
 
+  final String string;
   @override
   Widget build(BuildContext context) {
     final isLoading = context.watch<TodoViewModel>().isLoading;
@@ -21,7 +23,7 @@ class CreateTodoLoaderOverlay extends StatelessWidget {
           children: [
             CircularProgressIndicator(),
             SizedBox(width: 12,),
-            Text("Saving....", style: Theme.of(context).textTheme.titleSmall,)
+            Text("${string}....", style: Theme.of(context).textTheme.titleSmall,)
           ],
         ),
       ),

@@ -101,7 +101,7 @@ class _CreateUpdateScreenState extends State<UpdateTodo> {
               ),
           )
         ),
-        CreateTodoLoaderOverlay()
+        CreateTodoLoaderOverlay(string: 'Updating',)
       ],
     );
   }
