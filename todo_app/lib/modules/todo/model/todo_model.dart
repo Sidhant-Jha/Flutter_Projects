@@ -31,13 +31,21 @@ class TodoModel {
     return TodoModel(
      id: map['id'] as int,
      title: map['title'] as String,
-     description: map['description'] as String,
+     description: map['description'] as String?,
      category: mapToTodoCategory(map['category'] as String),
      priority: mapToTodoPriority(map['priority'] as String),
      status: mapToTodoStatus(map['status'] as String),
      createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int),
-     updatedAt: DateTime.fromMillisecondsSinceEpoch(map['updatedAt'] as int),
-     deletedAt: DateTime.fromMillisecondsSinceEpoch(map['deletedAt'] as int),
+     updatedAt: (map['updatedAt'] as int?) != null
+          ? DateTime.fromMillisecondsSinceEpoch(
+              map['updatedAt'] as int,
+            )
+          : null,
+      deletedAt: (map['deletedAt'] as int?) != null
+          ? DateTime.fromMillisecondsSinceEpoch(
+              map['deletedAt'] as int,
+            )
+          : null,
      );
   }
 
@@ -51,13 +59,13 @@ class TodoModel {
       'status' : status.name,
       'createdAt' : createdAt.millisecondsSinceEpoch,
       'updatedAt' : updatedAt?.millisecondsSinceEpoch,
-      'deletedAt' : deletedAt?.millisecondsSinceEpoch
+      'deletedAt' : deletedAt?.millisecondsSinceEpoch,
     };
   }
 
   TodoModel copyWith({ int? id })
   {
-    return TodoModel(id: id ?? this.id, title: title, category: category, priority: priority, status: status, createdAt: createdAt);
+    return TodoModel(id: id ?? this.id, title: title, description: description, category: category, priority: priority, status: status, createdAt: createdAt, updatedAt: updatedAt, deletedAt: deletedAt);
   }
 
 

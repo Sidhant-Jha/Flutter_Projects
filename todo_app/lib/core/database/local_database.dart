@@ -21,6 +21,10 @@ Future<void> createDatabase() async {
       'CREATE TABLE todos (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, description TEXT, category TEXT NOT NULL, priority TEXT NOT NULL, status TEXT NOT NULL, createdAt INTEGER NOT NULL, updatedAt INTEGER, deletedAt INTEGER)',
     );
     log('Created table todos!');
+  },
+  onOpen: (db)
+  {
+    log('Database opened ${db.path}');
   });
 
 }

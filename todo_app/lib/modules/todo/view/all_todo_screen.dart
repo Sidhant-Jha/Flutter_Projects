@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/modules/todo/view/create_todo_screen.dart';
+import 'package:todo_app/modules/todo/view/widgets/all_todo_list_builder.dart';
 import 'package:todo_app/modules/todo/view_model/todo_view_model.dart';
 
 class AllTodoScreen extends StatelessWidget {
@@ -11,8 +12,14 @@ class AllTodoScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Todos'),
+        actions: [
+          IconButton(onPressed: () {
+            context.read<TodoViewModel>().create100Todo();
+          }, icon: Icon(Icons.data_array))
+        ],
       ),
-      body: Container(),
+      body: const AllTodoListBuilder(),
+
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (_) => ChangeNotifierProvider.value(
           value: context.read<TodoViewModel>(),

@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:developer';
 
+import 'package:sqflite/sqflite.dart';
 import 'package:todo_app/core/database/local_database.dart';
+import 'package:todo_app/modules/todo/model/get_todo_response_model.dart';
 import 'package:todo_app/modules/todo/model/todo_model.dart';
 
 class TodoLocalDatabaseService {
@@ -22,21 +24,35 @@ class TodoLocalDatabaseService {
     }
   }
 
-  Future<List<TodoModel>?> getAllTodos() async{
+  Future<GetTodoResponseModel?> getAllTodos({int limit = 14, int offset = 0}) async{
     
     try{
-    final result = await  _db.query('todos');
-    return result.map((map) 
-    {
-      return TodoModel.fromDatabaseMap(map);
-    }).toList();
+
+    final result = await  _db.query('todos',
+    limit: limit,
+    offset: offset,
+    orderBy: 'id DESC'
+    );
+
+    final total = Sqflite.firstIntValue(
+        await _db.rawQuery(
+          'SELECT COUNT(*) FROM todos',
+        ),
+      );
+
+    final todos = result.map((map) {
+        return TodoModel.fromDatabaseMap(map);
+      }).toList();
+
+    await Future.delayed(Duration(seconds: 2));
+
+    return GetTodoResponseModel(todos: todos, total: total ?? 0);
     }
     catch(e, s)
     {
       log('getAllTodo', error: e, stackTrace: s, name: '$runtimeType');
       return null;
     }
-
   }
 
   Future<TodoModel?> updateTodo(int id, TodoModel model) async

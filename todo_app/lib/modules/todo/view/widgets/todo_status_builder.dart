@@ -4,14 +4,35 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/modules/todo/model/todo_category.dart';
+import 'package:todo_app/modules/todo/model/todo_model.dart';
 import 'package:todo_app/modules/todo/model/todo_priority.dart';
 import 'package:todo_app/modules/todo/model/todo_status.dart';
 import 'package:todo_app/modules/todo/view/all_todo_provider.dart';
 import 'package:todo_app/modules/todo/view_model/todo_view_model.dart';
 
-class TodoStatusBuilder extends StatelessWidget {
-  const TodoStatusBuilder({super.key});
+class TodoStatusBuilder extends StatefulWidget {
+  const TodoStatusBuilder({super.key, this.model});
 
+  final TodoModel? model;
+
+  @override
+  State<TodoStatusBuilder> createState() => _TodoStatusBuilderState();
+}
+
+class _TodoStatusBuilderState extends State<TodoStatusBuilder> {
+
+  @override
+  void initState() {
+    super.initState();
+    if(widget.model != null)
+    {
+      context.read<TodoViewModel>().status = widget.model!.status;
+    }
+    else
+    {
+      context.read<TodoViewModel>().status = TodoStatus.pending;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final selectedStatus = context.watch<TodoViewModel>().status;

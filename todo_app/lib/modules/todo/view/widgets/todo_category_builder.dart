@@ -4,15 +4,38 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app/modules/todo/model/todo_category.dart';
+import 'package:todo_app/modules/todo/model/todo_model.dart';
 import 'package:todo_app/modules/todo/view/all_todo_provider.dart';
 import 'package:todo_app/modules/todo/view_model/todo_view_model.dart';
 
-class TodoCategoryBuilder extends StatelessWidget {
-  const TodoCategoryBuilder({super.key});
+class TodoCategoryBuilder extends StatefulWidget {
+  const TodoCategoryBuilder({super.key, this.model});
 
+  final TodoModel? model;
+
+  @override
+  State<TodoCategoryBuilder> createState() => _TodoCategoryBuilderState();
+}
+
+class _TodoCategoryBuilderState extends State<TodoCategoryBuilder> {
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(widget.model != null)
+    {
+      context.read<TodoViewModel>().category = widget.model!.category;
+    }
+    else
+    {
+      context.read<TodoViewModel>().category = TodoCategory.personal;
+    }
+  }
   @override
   Widget build(BuildContext context) {
     final selectedCategory = context.watch<TodoViewModel>().category;
+    // final selectedCategory = context.watch<TodoViewModel>().category;
     log('${selectedCategory}');
     return 
         Row(

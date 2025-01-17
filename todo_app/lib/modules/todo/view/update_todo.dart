@@ -1,23 +1,34 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:todo_app/modules/todo/model/todo_model.dart';
 import 'package:todo_app/modules/todo/view/widgets/create_todo_loader_overlay.dart';
 import 'package:todo_app/modules/todo/view/widgets/todo_category_builder.dart';
 import 'package:todo_app/modules/todo/view/widgets/todo_priority_builder.dart';
 import 'package:todo_app/modules/todo/view/widgets/todo_status_builder.dart';
 import 'package:todo_app/modules/todo/view_model/todo_view_model.dart';
 
-class CreateTodoScreen extends StatefulWidget {
-  const CreateTodoScreen({super.key});
+class UpdateTodo extends StatefulWidget {
+  const UpdateTodo({super.key, required this.todo});
+
+  final TodoModel todo;
 
   @override
-  State<CreateTodoScreen> createState() => _CreateTodoScreenState();
+  State<UpdateTodo> createState() => _CreateUpdateScreenState();
 }
 
-class _CreateTodoScreenState extends State<CreateTodoScreen> {
-  final titleController = TextEditingController();
-  final descriptionController = TextEditingController();
-  final formKey = GlobalKey<FormState>();
-  
+class _CreateUpdateScreenState extends State<UpdateTodo> {
+  final updateTitleController = TextEditingController();
+  final updateDescriptionController = TextEditingController();
+  final updateFormKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+  super.initState();
+  updateTitleController.text = widget.todo.title;
+  updateDescriptionController.text = widget.todo.description ?? '';
+  }
 
   @override
   Widget build(BuildContext context){
@@ -25,18 +36,18 @@ class _CreateTodoScreenState extends State<CreateTodoScreen> {
       children: [
         Scaffold(
           appBar: AppBar(
-            title: Text('Create Todo'),
+            title: Text('Update Todo'),
           ),
           body: 
           Form(
-            key: formKey,
+            key: updateFormKey,
             child: SingleChildScrollView(
               child: Padding(
                   padding: EdgeInsets.all(16),
                   child: Column(
                     children: [
                       TextFormField(
-                        controller: titleController,
+                        controller: updateTitleController,
                         validator: (input)
                         {
                           if(input == null) return "Title is required";
@@ -57,7 +68,7 @@ class _CreateTodoScreenState extends State<CreateTodoScreen> {
                       ),
                       SizedBox(height: 20,),
                       TextFormField(
-                        controller: descriptionController,
+                        controller: updateDescriptionController,
                         decoration: InputDecoration(
                           labelText: "Description",
                           border: OutlineInputBorder(
@@ -70,18 +81,18 @@ class _CreateTodoScreenState extends State<CreateTodoScreen> {
                         maxLength: 100,
                       ),
                       SizedBox(height: 16,),
-                      TodoCategoryBuilder(),
+                      TodoCategoryBuilder(model: widget.todo,),
                       SizedBox(height: 16,),
-                      TodoPriorityBuilder(),
+                      TodoPriorityBuilder(model: widget.todo,),
                       SizedBox(height: 16,),
-                      TodoStatusBuilder(),
+                      TodoStatusBuilder(model: widget.todo,),
                       SizedBox(height: 86,),
             
                       FilledButton(
                         onPressed: () {
-                          _onSaveButtonTapEvent(context);
+                          _onUpdateButtonTapEvent(context);
                         },
-                         child: Text("Save")
+                         child: const Text("Update")
                       )
             
                     ],
@@ -95,15 +106,17 @@ class _CreateTodoScreenState extends State<CreateTodoScreen> {
     );
   }
 
-  void _onSaveButtonTapEvent(BuildContext context) {
-    if(formKey.currentState?.validate() == true)
+  void _onUpdateButtonTapEvent(BuildContext context) {
+    if(updateFormKey.currentState!.validate())
     {
-      context.read<TodoViewModel>().createTodoEvent(
-      title: titleController.text.trim(),
-      description: descriptionController.text.trim().isEmpty ? null : descriptionController.text.trim(),
+      context.read<TodoViewModel>().UpdateTodoEvent(
+      todo: widget.todo,
+      title: updateTitleController.text.trim(),
+      description: updateDescriptionController.text.trim().isEmpty ? null : updateDescriptionController.text.trim(),
       onCompleted: (result)
       {
         Navigator.of(context).pop(result);
+        Navigator.of(context).pop();
       });
     }
   }
@@ -111,8 +124,8 @@ class _CreateTodoScreenState extends State<CreateTodoScreen> {
   @override
   void dispose()
   {
-    titleController.dispose();
-    descriptionController.dispose();
+    updateTitleController.dispose();
+    updateDescriptionController.dispose();
     super.dispose();
   }
 }
