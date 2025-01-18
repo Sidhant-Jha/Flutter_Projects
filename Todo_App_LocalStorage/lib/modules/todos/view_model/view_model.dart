@@ -5,6 +5,7 @@
 
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:todo_app_localstorage/modules/todos/model/todo_category.dart';
 import 'package:todo_app_localstorage/modules/todos/model/todo_model.dart';
 import 'package:todo_app_localstorage/modules/todos/model/todo_priority.dart';
@@ -15,7 +16,7 @@ class TodoViewModel extends ChangeNotifier{
   
   TodoCategory category = TodoCategory.personal;
   TodoPriority priority = TodoPriority.low;
-  TodoStatus status = TodoStatus.pending;
+  // TodoStatus status = TodoStatus.pending;
 
   final service = TodoLocalDatabaseService();
 
@@ -25,6 +26,9 @@ class TodoViewModel extends ChangeNotifier{
   List<TodoModel> todos = [];
 
   int total = 0;
+
+  DateTime? selectedDate;
+  TimeOfDay? selectedTime;
 
 
 
@@ -40,13 +44,13 @@ class TodoViewModel extends ChangeNotifier{
     notifyListeners();
   }
 
-  void changeTodoStatusEvent(TodoStatus status)
-  {
-    this.status = status;
-    notifyListeners();
-  }
+  // void changeTodoStatusEvent(TodoStatus status)
+  // {
+  //   this.status = status;
+  //   notifyListeners();
+  // }
 
-  Future<void> createTodoEvent({required String title, String? description,
+  Future<void> createTodoEvent({required String title, String? description, required String dueDate, required String dueTime, 
   required Function(TodoModel? result) onCompleted}) async
   {
     final model = TodoModel(
@@ -54,8 +58,9 @@ class TodoViewModel extends ChangeNotifier{
       description: description,
       category: category,
       priority: priority,
-      status: status,
-      createdAt: DateTime.now(),
+      // status: status,
+      dueDate: dueDate,
+      dueTime: dueTime
     );
     isLoading = true;
     notifyListeners();
@@ -88,8 +93,9 @@ class TodoViewModel extends ChangeNotifier{
         TodoModel(title: 'Task ${i + 1} ${faker.lorem.sentence()}',
          category: faker.randomGenerator.boolean() ? TodoCategory.personal : TodoCategory.work,
          priority: faker.randomGenerator.boolean() ? TodoPriority.low : TodoPriority.high,
-         status: TodoStatus.pending,
-         createdAt: DateTime.now()
+        //  status: TodoStatus.pending,
+         dueDate: DateFormat("dd-MM-yyyy").format(DateTime.now()),
+         dueTime: DateFormat("HH:mm").format(DateTime.now())
           )
       );
     }
@@ -139,7 +145,7 @@ class TodoViewModel extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<void> UpdateTodoEvent({required String title, required TodoModel todo,  String? description,
+  Future<void> UpdateTodoEvent({required String title, required TodoModel todo,  String? description, required String dueDate, required String dueTime,
   required Function(TodoModel? result) onCompleted}) async {
 
   final model = TodoModel(
@@ -147,8 +153,9 @@ class TodoViewModel extends ChangeNotifier{
       description: description,
       category: category,
       priority: priority,
-      status: status,
-      createdAt: DateTime.now(),
+      // status: status,
+      dueDate: dueDate,
+      dueTime: dueTime
     );
     isLoading = true;
     notifyListeners();

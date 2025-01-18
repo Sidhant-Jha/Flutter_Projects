@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app_localstorage/modules/todos/model/todo_priority.dart';
+import 'package:todo_app_localstorage/modules/todos/view/todo_view_screen.dart';
 import 'package:todo_app_localstorage/modules/todos/view/view_todo_screen.dart';
 import 'package:todo_app_localstorage/modules/todos/view_model/view_model.dart';
 
@@ -49,16 +50,7 @@ class _AllTodoListBuilderState extends State<AllTodoListBuilder> {
                 {
                   final todo = todos[index];
                   log('${todo.description}');
-                  return ListTile(
-                    leading: Icon(Icons.circle, size: 20, color: _getColor(todo.priority),),
-                    onTap: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (_) => ChangeNotifierProvider.value(
-                      value: context.read<TodoViewModel>(),
-                      child: ViewTodoScreen(model: todo))));
-                    },
-                    title: Text(todo.title, style: Theme.of(context).textTheme.titleLarge, maxLines: 2, overflow: TextOverflow.ellipsis,),
-                    subtitle: todo.description != null ? Text(todo.description!, maxLines: 3, overflow: TextOverflow.ellipsis,) : null
-                  );
+                  return TodoViewScreen(model: todo);
                 },
                 separatorBuilder: (context, index)
                 {

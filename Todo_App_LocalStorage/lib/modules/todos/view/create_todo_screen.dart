@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app_localstorage/modules/todos/view/widgets/create_todo_loader_overlay.dart';
 import 'package:todo_app_localstorage/modules/todos/view/widgets/todo_category_builder.dart';
 import 'package:todo_app_localstorage/modules/todos/view/widgets/todo_priority_builder.dart';
-import 'package:todo_app_localstorage/modules/todos/view/widgets/todo_status_builder.dart';
+// import 'package:todo_app_localstorage/modules/todos/view/widgets/todo_status_builder.dart';
 import 'package:todo_app_localstorage/modules/todos/view_model/view_model.dart';
 
 class CreateTodoScreen extends StatefulWidget {
@@ -16,11 +17,48 @@ class CreateTodoScreen extends StatefulWidget {
 class _CreateTodoScreenState extends State<CreateTodoScreen> {
   final titleController = TextEditingController();
   final descriptionController = TextEditingController();
+  final dueDateController = TextEditingController();
+  final dueTimeController = TextEditingController();
   final formKey = GlobalKey<FormState>();
+
+
+   Future<void> selectDueDate(BuildContext context, DateTime? selectedDate) async
+  {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime.now(),
+      firstDate: DateTime(2001),
+      lastDate: DateTime(2026)
+    );
+
+    if(pickedDate != null)
+    {
+      selectedDate = pickedDate;
+      dueDateController.text = DateFormat("dd-MM-yyyy").format(pickedDate);
+    }
+  }
+
+  Future<void> selectDueTime(BuildContext context, TimeOfDay? selectedTime) async
+  {
+    final TimeOfDay? pickedTime = await showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now()
+    );
+
+    if(pickedTime != null)
+    {
+      selectedTime = pickedTime;
+      dueTimeController.text = pickedTime.format(context);
+    }
+  }
   
 
   @override
   Widget build(BuildContext context){
+
+    final DateTime?  selectedDate = context.read<TodoViewModel>().selectedDate;
+    final TimeOfDay? selectedDueTime = context.read<TodoViewModel>().selectedTime;
+
     return Stack(
       children: [
         Scaffold(
@@ -53,7 +91,7 @@ class _CreateTodoScreenState extends State<CreateTodoScreen> {
                           ),
                           hintText: "Enter Title"
                         ),
-                        maxLength: 20,
+                        maxLength: 50,
                       ),
                       SizedBox(height: 20,),
                       TextFormField(
@@ -74,7 +112,63 @@ class _CreateTodoScreenState extends State<CreateTodoScreen> {
                       SizedBox(height: 16,),
                       TodoPriorityBuilder(),
                       SizedBox(height: 16,),
-                      TodoStatusBuilder(),
+                      // TodoStatusBuilder(),
+
+                      TextFormField(
+                          readOnly: true,
+                          onTap: () => selectDueDate(context, selectedDate),
+                          controller: dueDateController,
+                          validator: (value)
+                          {
+                            if(value!.trim().isEmpty)
+                            {
+                              return 'Please Select Due Date';
+                            }
+                            return null;
+                          },
+                          decoration: const InputDecoration(
+                            hintStyle: TextStyle(
+                              height: 2
+                            ),
+                            prefixIcon: Icon(Icons.calendar_month),
+                            hintText: "Due Date",
+                            border: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                style: BorderStyle.none,
+                              ),
+                            )
+                          ),
+                        ),
+
+                      SizedBox(height: 16,),
+
+
+                       TextFormField(
+                          readOnly: true,
+                          onTap: ()=> selectDueTime(context, selectedDueTime),
+                          controller: dueTimeController,
+                          validator: (value)
+                          {
+                            if(value!.trim().isEmpty)
+                            {
+                              return "Please Select Due Time";
+                            }
+                            return null;
+                          },
+                          decoration: const InputDecoration(
+                            hintStyle: TextStyle(
+                              height: 2
+                            ),
+                            prefixIcon: Icon(Icons.access_time),
+                            hintText: "Due Time",
+                            border: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                style: BorderStyle.none
+                              )
+                            )
+                          ),
+                        ),
+
                       SizedBox(height: 86,),
             
                       FilledButton(
@@ -99,6 +193,8 @@ class _CreateTodoScreenState extends State<CreateTodoScreen> {
     if(formKey.currentState?.validate() == true)
     {
       context.read<TodoViewModel>().createTodoEvent(
+      dueDate: dueDateController.text,
+      dueTime: dueTimeController.text,
       title: titleController.text.trim(),
       description: descriptionController.text.trim().isEmpty ? null : descriptionController.text.trim(),
       onCompleted: (result)
@@ -113,6 +209,8 @@ class _CreateTodoScreenState extends State<CreateTodoScreen> {
   {
     titleController.dispose();
     descriptionController.dispose();
+    dueDateController.dispose();
+    dueTimeController.dispose();
     super.dispose();
   }
 }
