@@ -1,14 +1,18 @@
-// enum TodoStatus {
-//   pending,
-//   completed,
-// }
+class TodoStatus{
+  const TodoStatus._();
 
-// TodoStatus mapToTodoStatus(String name)
-// {
-//   switch(name) 
-//   {
-//     case 'pending': return TodoStatus.pending;
-//     case 'completed' : return TodoStatus.completed;
-//     default: return TodoStatus.pending;
-//   }
-// }
+  static bool? giveStatus(String? statusValue)
+  {
+    
+    if(statusValue == null)
+    {
+      return null;
+    }
+    else if(statusValue.toLowerCase() == 'true')
+    {
+      return true;
+    }
+    else
+      return false;
+  }
+}

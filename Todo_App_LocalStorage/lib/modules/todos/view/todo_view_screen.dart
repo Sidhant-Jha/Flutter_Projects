@@ -10,9 +10,13 @@
 //   }
 // }
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app_localstorage/modules/todos/model/todo_model.dart';
+import 'package:todo_app_localstorage/modules/todos/model/todo_priority.dart';
+import 'package:todo_app_localstorage/modules/todos/view_model/view_model.dart';
 
 class TodoViewScreen extends StatelessWidget {
   TodoViewScreen({super.key, required this.model});
@@ -26,26 +30,29 @@ class TodoViewScreen extends StatelessWidget {
     return ExpansionTile(
       leading: InkWell(
               onTap: () {
-
+  
               },
               child: Transform.scale(
                 scale: 1.1, //default is 1
                 child: Checkbox(
                   materialTapTargetSize: MaterialTapTargetSize.padded,
-                  value: false,
+                  value: model.status ?? false,
                     onChanged: (value) {
-                     
+                      // context.read<TodoViewModel>().toggleStatus();
+                      log('Lad ${value}');
                     }
                   ),
               ),
             ),
+      trailing: ElevatedButton(onPressed: null, child: Text(model.priority.name, style: TextStyle(color: _getColor(model.priority)),)),
       title: Text(model.title,
-              maxLines: 2,
+              maxLines: 1,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                 // fontWeight: FontWeight.bold,
                 fontSize: 23,
                 // decoration: providerRead.isCompleted ? TextDecoration.lineThrough  : TextDecoration.none
+        
               ),),
       children: [
           Padding(
@@ -59,7 +66,16 @@ class TodoViewScreen extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(10.0),
                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    Text('Title : ${model.title!}',
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                        // fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),),
+                    SizedBox(height: 5,),
                     Row(
                       children: [
                         if(model.description != null)
@@ -155,4 +171,13 @@ class TodoViewScreen extends StatelessWidget {
     );
   
   }
+  
+  Color _getColor(TodoPriority priority) {
+    switch(priority)
+    {
+      case TodoPriority.low : return Colors.green;
+      case TodoPriority.medium : return Colors.yellow;
+      case TodoPriority.high : return Colors.red;
+    }
+  } 
 }

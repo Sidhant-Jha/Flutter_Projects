@@ -22,6 +22,7 @@ class TodoViewModel extends ChangeNotifier{
 
   bool isLoading = false;
   bool isLoadingMore = false;
+  bool isLoadingStatus = false;
 
   List<TodoModel> todos = [];
 
@@ -164,6 +165,13 @@ class TodoViewModel extends ChangeNotifier{
     onCompleted.call(result);
     isLoading = false;
     notifyListeners();
+  }
+
+  Future<void> toggleStatus() async{
+    isLoading = true;
+    notifyListeners();
+
+    
   }
 
 }

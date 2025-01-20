@@ -11,7 +11,7 @@ class TodoModel {
   final String? description;
   final TodoCategory category;
   final TodoPriority priority;
-  // final TodoStatus status;
+  final bool? status;
   final String dueDate;
   final String dueTime;
   final String? completedDate;
@@ -23,7 +23,7 @@ class TodoModel {
     this.description,
     required this.category,
     required this.priority,
-    // required this.status,
+    this.status,
     required this.dueDate,
     required this.dueTime,
     this.completedDate,
@@ -40,7 +40,7 @@ class TodoModel {
      description: map['description'] as String?,
      category: mapToTodoCategory(map['category'] as String),
      priority: mapToTodoPriority(map['priority'] as String),
-    //  status: mapToTodoStatus(map['status'] as String),
+     status: TodoStatus.giveStatus(map['status'] as String?),
      dueDate: map['dueDate'] as String,
      dueTime: map['dueTime'] as String,
      completedDate: (map['completedDate'] as String?) != null
@@ -61,7 +61,7 @@ class TodoModel {
       'description' : description?.trim(),
       'category' : category.name,
       'priority' : priority.name,
-      // 'status' : status.name,
+      'status' : status?.toString(),
       'dueDate' : dueDate,
       'dueTime' : dueTime,
       'completedDate' : completedDate ?? "",
@@ -71,7 +71,7 @@ class TodoModel {
 
   TodoModel copyWith({ int? id })
   {
-    return TodoModel(id: id ?? this.id, title: title, description: description, category: category, priority: priority, dueDate: dueDate, dueTime: dueTime, completedDate:  completedDate, completedTime: completedTime);
+    return TodoModel(id: id ?? this.id, title: title, description: description, category: category, priority: priority, status: status, dueDate: dueDate, dueTime: dueTime, completedDate:  completedDate, completedTime: completedTime);
   }
 
 }
