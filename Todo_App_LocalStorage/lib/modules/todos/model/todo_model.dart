@@ -61,7 +61,7 @@ class TodoModel {
       'description' : description?.trim(),
       'category' : category.name,
       'priority' : priority.name,
-      'status' : status?.toString(),
+      'status' : status.toString() ?? 'false',
       'dueDate' : dueDate,
       'dueTime' : dueTime,
       'completedDate' : completedDate ?? "",

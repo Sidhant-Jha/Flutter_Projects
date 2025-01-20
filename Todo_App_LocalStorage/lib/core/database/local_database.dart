@@ -15,7 +15,7 @@ class LocalDatabase {
     {
       log('Database created at $path!');
       await db.execute(
-        'CREATE TABLE todos (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, description TEXT, category TEXT NOT NULL, priority TEXT NOT NULL, status TEXT, dueDate TEXT NOT NULL, dueTime TEXT NOT NULL, completedDate TEXT, completedTime TEXT)',
+        "CREATE TABLE todos (id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, description TEXT, category TEXT NOT NULL, priority TEXT NOT NULL, status TEXT DEFAULT 'false', dueDate TEXT NOT NULL, dueTime TEXT NOT NULL, completedDate TEXT, completedTime TEXT)",
       );
       log('Created table todos!');
     },

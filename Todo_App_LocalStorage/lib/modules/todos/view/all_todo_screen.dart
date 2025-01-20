@@ -16,9 +16,10 @@ class AllTodoScreen extends StatelessWidget {
           appBar: AppBar(
             title: Text('Todos'),
             actions: [
-              IconButton(onPressed: () {
-                context.read<TodoViewModel>().create100Todo();
-              }, icon: Icon(Icons.data_array))
+              // IconButton(onPressed: () {
+              //   context.read<TodoViewModel>().create100Todo();
+              // }, icon: Icon(Icons.data_array))
+              IconButton(onPressed: () {}, icon: Icon(Icons.filter_alt))
             ],
           ),
           body: const AllTodoListBuilder(),

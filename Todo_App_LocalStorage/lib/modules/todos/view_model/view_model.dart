@@ -1,7 +1,4 @@
-// import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
-
-// import 'dart:developer';
-// import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
+import 'dart:developer';
 
 import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
@@ -9,20 +6,17 @@ import 'package:intl/intl.dart';
 import 'package:todo_app_localstorage/modules/todos/model/todo_category.dart';
 import 'package:todo_app_localstorage/modules/todos/model/todo_model.dart';
 import 'package:todo_app_localstorage/modules/todos/model/todo_priority.dart';
-import 'package:todo_app_localstorage/modules/todos/model/todo_status.dart';
 import 'package:todo_app_localstorage/modules/todos/service/todo_local_database_service.dart';
 
 class TodoViewModel extends ChangeNotifier{
   
   TodoCategory category = TodoCategory.personal;
   TodoPriority priority = TodoPriority.low;
-  // TodoStatus status = TodoStatus.pending;
 
   final service = TodoLocalDatabaseService();
 
   bool isLoading = false;
   bool isLoadingMore = false;
-  bool isLoadingStatus = false;
 
   List<TodoModel> todos = [];
 
@@ -45,12 +39,6 @@ class TodoViewModel extends ChangeNotifier{
     notifyListeners();
   }
 
-  // void changeTodoStatusEvent(TodoStatus status)
-  // {
-  //   this.status = status;
-  //   notifyListeners();
-  // }
-
   Future<void> createTodoEvent({required String title, String? description, required String dueDate, required String dueTime, 
   required Function(TodoModel? result) onCompleted}) async
   {
@@ -59,7 +47,6 @@ class TodoViewModel extends ChangeNotifier{
       description: description,
       category: category,
       priority: priority,
-      // status: status,
       dueDate: dueDate,
       dueTime: dueTime
     );
@@ -85,23 +72,21 @@ class TodoViewModel extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<void> create100Todo() async
-  {
-    final faker = Faker();
-    for(int i = 0; i < 100; i++)
-    {
-      await service.createTodo(
-        TodoModel(title: 'Task ${i + 1} ${faker.lorem.sentence()}',
-         category: faker.randomGenerator.boolean() ? TodoCategory.personal : TodoCategory.work,
-         priority: faker.randomGenerator.boolean() ? TodoPriority.low : TodoPriority.high,
-        //  status: TodoStatus.pending,
-         dueDate: DateFormat("dd-MM-yyyy").format(DateTime.now()),
-         dueTime: DateFormat("HH:mm").format(DateTime.now())
-          )
-      );
-    }
-    
-  }
+  // Future<void> create100Todo() async
+  // {
+  //   final faker = Faker();
+  //   for(int i = 0; i < 100; i++)
+  //   {
+  //     await service.createTodo(
+  //       TodoModel(title: 'Task ${i + 1} ${faker.lorem.sentence()}',
+  //        category: faker.randomGenerator.boolean() ? TodoCategory.personal : TodoCategory.work,
+  //        priority: faker.randomGenerator.boolean() ? TodoPriority.low : TodoPriority.high,
+  //        dueDate: DateFormat("dd-MM-yyyy").format(DateTime.now()),
+  //        dueTime: DateFormat("HH:mm").format(DateTime.now())
+  //         )
+  //     );
+  //   }
+  // }
 
   Future<void> fetchMoreTodos() async{
 
@@ -124,8 +109,7 @@ class TodoViewModel extends ChangeNotifier{
 
   }
 
-  Future<void> deleteTodoEvent({required TodoModel todo,
-  required VoidCallback onCompleted}) async{
+  Future<void> deleteTodoEvent({required TodoModel todo}) async{
     if(todo.id == null) return;
 
     isLoading = true;
@@ -135,7 +119,6 @@ class TodoViewModel extends ChangeNotifier{
 
     isLoading = false;
     _removeTodoFromList(todo);
-    onCompleted.call();
     notifyListeners();
   }
   
@@ -154,7 +137,6 @@ class TodoViewModel extends ChangeNotifier{
       description: description,
       category: category,
       priority: priority,
-      // status: status,
       dueDate: dueDate,
       dueTime: dueTime
     );
@@ -167,9 +149,28 @@ class TodoViewModel extends ChangeNotifier{
     notifyListeners();
   }
 
-  Future<void> toggleStatus() async{
-    isLoading = true;
+  Future<void> toggleStatus({required TodoModel previousModel}) async{
+    
+    final model = TodoModel(
+    
+      title: previousModel.title,
+      description: previousModel.description,
+      category: previousModel.category,
+      priority: previousModel.priority,
+      status: previousModel.status == true ? false : true,
+      dueDate: previousModel.dueDate,
+      dueTime: previousModel.dueTime,
+      completedDate: !previousModel.status! ? DateFormat("dd-MM-yyyy").format(DateTime.now()) : null,
+      completedTime: !previousModel.status! ? DateFormat('hh:mm a').format(DateTime.now()) : null
+    );
+
+    await service.updateTodo(previousModel.id!, model);
+    await fetchAllTodosEvent();
+
+    log('Provider ${previousModel.status}');
     notifyListeners();
+
+
 
     
   }

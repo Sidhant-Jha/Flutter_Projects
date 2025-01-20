@@ -1,6 +1,4 @@
 import 'dart:developer';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app_localstorage/modules/todos/model/todo_category.dart';
@@ -20,7 +18,6 @@ class _TodoCategoryBuilderState extends State<TodoCategoryBuilder> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if(widget.model != null)
     {
@@ -34,8 +31,7 @@ class _TodoCategoryBuilderState extends State<TodoCategoryBuilder> {
   @override
   Widget build(BuildContext context) {
     final selectedCategory = context.watch<TodoViewModel>().category;
-    // final selectedCategory = context.watch<TodoViewModel>().category;
-    log('${selectedCategory}');
+    // log('${selectedCategory}');
     return 
         Row(
           children: [

@@ -4,7 +4,6 @@ import 'package:provider/provider.dart';
 import 'package:todo_app_localstorage/modules/todos/view/widgets/create_todo_loader_overlay.dart';
 import 'package:todo_app_localstorage/modules/todos/view/widgets/todo_category_builder.dart';
 import 'package:todo_app_localstorage/modules/todos/view/widgets/todo_priority_builder.dart';
-// import 'package:todo_app_localstorage/modules/todos/view/widgets/todo_status_builder.dart';
 import 'package:todo_app_localstorage/modules/todos/view_model/view_model.dart';
 
 class CreateTodoScreen extends StatefulWidget {
@@ -112,8 +111,6 @@ class _CreateTodoScreenState extends State<CreateTodoScreen> {
                       SizedBox(height: 16,),
                       TodoPriorityBuilder(),
                       SizedBox(height: 16,),
-                      // TodoStatusBuilder(),
-
                       TextFormField(
                           readOnly: true,
                           onTap: () => selectDueDate(context, selectedDate),
@@ -141,7 +138,6 @@ class _CreateTodoScreenState extends State<CreateTodoScreen> {
                         ),
 
                       SizedBox(height: 16,),
-
 
                        TextFormField(
                           readOnly: true,

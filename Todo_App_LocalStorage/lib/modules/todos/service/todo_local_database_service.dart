@@ -13,7 +13,7 @@ class TodoLocalDatabaseService {
   {
     try{
       final id = await _db.insert('todos', model.toDatabaseMap());
-      await Future.delayed(Duration(seconds: 3));
+      // await Future.delayed(Duration(seconds: 3));
       log('Created todo id : $id');
       return model.copyWith(id: id);
     }
@@ -44,7 +44,7 @@ class TodoLocalDatabaseService {
         return TodoModel.fromDatabaseMap(map);
       }).toList();
 
-    await Future.delayed(Duration(seconds: 2));
+    // await Future.delayed(Duration(seconds: 2));
 
     return GetTodoResponseModel(todos: todos, total: total ?? 0);
     }

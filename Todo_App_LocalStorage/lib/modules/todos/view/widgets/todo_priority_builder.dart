@@ -1,6 +1,4 @@
 import 'dart:developer';
-
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app_localstorage/modules/todos/model/todo_model.dart';
@@ -20,7 +18,6 @@ class _TodoPriorityBuilderState extends State<TodoPriorityBuilder> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     if(widget.model != null)
     {
@@ -34,8 +31,7 @@ class _TodoPriorityBuilderState extends State<TodoPriorityBuilder> {
   @override
   Widget build(BuildContext context) {
     final selectedPriority = context.watch<TodoViewModel>().priority;
-    // final selectedPriority = context.watch<TodoViewModel>().priority;
-    log('${selectedPriority}');
+    // log('${selectedPriority}');
     return 
         Row(
           children: [

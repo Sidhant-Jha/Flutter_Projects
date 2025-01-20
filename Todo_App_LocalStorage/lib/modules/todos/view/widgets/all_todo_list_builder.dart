@@ -1,11 +1,8 @@
 import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app_localstorage/modules/todos/model/todo_priority.dart';
 import 'package:todo_app_localstorage/modules/todos/view/todo_view_screen.dart';
-import 'package:todo_app_localstorage/modules/todos/view/view_todo_screen.dart';
 import 'package:todo_app_localstorage/modules/todos/view_model/view_model.dart';
 
 class AllTodoListBuilder extends StatefulWidget {
@@ -34,6 +31,25 @@ class _AllTodoListBuilderState extends State<AllTodoListBuilder> {
 
       return Column(
         children: [
+          SizedBox(height: 10,),
+          Container(
+            decoration: BoxDecoration(
+              color: Theme.of(context).colorScheme.surfaceContainerHighest,
+              borderRadius: BorderRadius.circular(25)
+            ),
+            width: 350,
+            child: TextField(
+              onChanged: (value) {},
+              decoration: const InputDecoration(
+                prefixIcon: Icon(Icons.search),
+                contentPadding: EdgeInsets.all(10),
+                hintText: "Search task",
+                border: InputBorder.none,
+                
+              ),
+            ),
+          ),
+          SizedBox(height: 20,),
           Expanded(
             child: NotificationListener<ScrollNotification>(
               onNotification: (notification) {
@@ -43,7 +59,7 @@ class _AllTodoListBuilderState extends State<AllTodoListBuilder> {
                 }
                 return false;
               },
-              child: ListView.separated(
+              child: ListView.builder(
                 itemCount: todos.length,
                 padding: EdgeInsets.symmetric(vertical: 16),
                 itemBuilder: (context, index)
@@ -51,10 +67,6 @@ class _AllTodoListBuilderState extends State<AllTodoListBuilder> {
                   final todo = todos[index];
                   log('${todo.description}');
                   return TodoViewScreen(model: todo);
-                },
-                separatorBuilder: (context, index)
-                {
-                  return const Divider(thickness: 1);
                 },
               ),
             ),

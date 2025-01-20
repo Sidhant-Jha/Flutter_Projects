@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
@@ -7,21 +5,20 @@ import 'package:todo_app_localstorage/modules/todos/model/todo_model.dart';
 import 'package:todo_app_localstorage/modules/todos/view/widgets/create_todo_loader_overlay.dart';
 import 'package:todo_app_localstorage/modules/todos/view/widgets/todo_category_builder.dart';
 import 'package:todo_app_localstorage/modules/todos/view/widgets/todo_priority_builder.dart';
-// import 'package:todo_app_localstorage/modules/todos/view/widgets/todo_status_builder.dart';
 import 'package:todo_app_localstorage/modules/todos/view_model/view_model.dart';
 
-class UpdateTodo extends StatefulWidget {
-  const UpdateTodo({super.key, required this.todo});
+class TodoUpdateScreen extends StatefulWidget {
+  const TodoUpdateScreen({super.key, required this.model});
 
-  final TodoModel todo;
+  final TodoModel model;
 
   @override
-  State<UpdateTodo> createState() => _CreateUpdateScreenState();
+  State<TodoUpdateScreen> createState() => _TodoUpdateScreenState();
 }
 
-class _CreateUpdateScreenState extends State<UpdateTodo> {
-  final updateTitleController = TextEditingController();
-  final updateDescriptionController = TextEditingController();
+class _TodoUpdateScreenState extends State<TodoUpdateScreen> {
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
   final dueDateController = TextEditingController();
   final dueTimeController = TextEditingController();
   final formKey = GlobalKey<FormState>();
@@ -33,7 +30,7 @@ class _CreateUpdateScreenState extends State<UpdateTodo> {
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime(2001),
-      lastDate: DateTime(2025)
+      lastDate: DateTime(2026)
     );
 
     if(pickedDate != null)
@@ -56,16 +53,20 @@ class _CreateUpdateScreenState extends State<UpdateTodo> {
       dueTimeController.text = pickedTime.format(context);
     }
   }
-
+  
   @override
   void initState() {
-  super.initState();
-  updateTitleController.text = widget.todo.title;
-  updateDescriptionController.text = widget.todo.description ?? '';
+    super.initState();
+    titleController.text = widget.model.title;
+    descriptionController.text = widget.model.description ?? '';
+    dueDateController.text = widget.model.dueDate;
+    dueTimeController.text = widget.model.dueTime;
+
   }
 
   @override
   Widget build(BuildContext context){
+
     final DateTime?  selectedDate = context.read<TodoViewModel>().selectedDate;
     final TimeOfDay? selectedDueTime = context.read<TodoViewModel>().selectedTime;
 
@@ -84,7 +85,7 @@ class _CreateUpdateScreenState extends State<UpdateTodo> {
                   child: Column(
                     children: [
                       TextFormField(
-                        controller: updateTitleController,
+                        controller: titleController,
                         validator: (input)
                         {
                           if(input == null) return "Title is required";
@@ -101,11 +102,11 @@ class _CreateUpdateScreenState extends State<UpdateTodo> {
                           ),
                           hintText: "Enter Title"
                         ),
-                        maxLength: 20,
+                        maxLength: 50,
                       ),
                       SizedBox(height: 20,),
                       TextFormField(
-                        controller: updateDescriptionController,
+                        controller: descriptionController,
                         decoration: InputDecoration(
                           labelText: "Description",
                           border: OutlineInputBorder(
@@ -118,14 +119,14 @@ class _CreateUpdateScreenState extends State<UpdateTodo> {
                         maxLength: 100,
                       ),
                       SizedBox(height: 16,),
-                      TodoCategoryBuilder(model: widget.todo,),
+                      TodoCategoryBuilder(model: widget.model,),
                       SizedBox(height: 16,),
-                      TodoPriorityBuilder(model: widget.todo,),
+                      TodoPriorityBuilder(model: widget.model,),
                       SizedBox(height: 16,),
-                      
-                        TextFormField(
-                          onTap: () => selectDueDate(context, selectedDate),
+
+                      TextFormField(
                           readOnly: true,
+                          onTap: () => selectDueDate(context, selectedDate),
                           controller: dueDateController,
                           validator: (value)
                           {
@@ -182,9 +183,9 @@ class _CreateUpdateScreenState extends State<UpdateTodo> {
             
                       FilledButton(
                         onPressed: () {
-                          _onUpdateButtonTapEvent(context);
+                          _onSaveButtonTapEvent(context);
                         },
-                         child: const Text("Update")
+                         child: Text("Update")
                       )
             
                     ],
@@ -193,24 +194,23 @@ class _CreateUpdateScreenState extends State<UpdateTodo> {
               ),
           )
         ),
-        CreateTodoLoaderOverlay(string: 'Updating',)
+        CreateTodoLoaderOverlay(string: "Saving",)
       ],
     );
   }
 
-  void _onUpdateButtonTapEvent(BuildContext context) {
-    if(formKey.currentState!.validate())
+  void _onSaveButtonTapEvent(BuildContext context) {
+    if(formKey.currentState?.validate() == true)
     {
       context.read<TodoViewModel>().UpdateTodoEvent(
+      todo: widget.model,
       dueDate: dueDateController.text,
       dueTime: dueTimeController.text,
-      todo: widget.todo,
-      title: updateTitleController.text.trim(),
-      description: updateDescriptionController.text.trim().isEmpty ? null : updateDescriptionController.text.trim(),
+      title: titleController.text.trim(), 
+      description: descriptionController.text.trim().isEmpty ? null : descriptionController.text.trim(),
       onCompleted: (result)
       {
         Navigator.of(context).pop(result);
-        Navigator.of(context).pop();
       });
     }
   }
@@ -218,8 +218,10 @@ class _CreateUpdateScreenState extends State<UpdateTodo> {
   @override
   void dispose()
   {
-    updateTitleController.dispose();
-    updateDescriptionController.dispose();
+    titleController.dispose();
+    descriptionController.dispose();
+    dueDateController.dispose();
+    dueTimeController.dispose();
     super.dispose();
   }
 }
