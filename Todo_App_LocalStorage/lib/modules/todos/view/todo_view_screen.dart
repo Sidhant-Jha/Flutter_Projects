@@ -19,6 +19,7 @@ class TodoViewScreen extends StatelessWidget {
     return Stack(
       children: [
         ExpansionTile(
+          // subtitle: Text(model.category.name),
           leading: InkWell(
                   onTap: () {},
                   child: Transform.scale(
