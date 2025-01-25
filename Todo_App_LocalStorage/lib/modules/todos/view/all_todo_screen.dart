@@ -14,7 +14,7 @@ class AllTodoScreen extends StatelessWidget {
       children: [
         Scaffold(
           appBar: AppBar(
-            title: Text('Todos'),
+            title: Text('Todo App'),
             actions: [
               // IconButton(onPressed: () {
               //   context.read<TodoViewModel>().create100Todo();
