@@ -18,7 +18,6 @@ class _StatusScreenState extends State<StatusScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     _statusData = getTodoStatus();
   }
@@ -26,14 +25,25 @@ class _StatusScreenState extends State<StatusScreen> {
   Widget build(BuildContext context)
   {
     return SafeArea(
-      child: Scaffold(
-        body: SfCircularChart(series: <CircularSeries>[
-          PieSeries<Status, String>(
-            dataSource: _statusData,
-            xValueMapper: (Status data, _) => data.status,
-            yValueMapper: (Status data, _) => data.number,
-          )
-        ],),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 50),
+        child: Scaffold(
+          body: SfCircularChart(
+            annotations: [
+              CircularChartAnnotation(widget: Text('62%'))
+            ],
+            title: ChartTitle(text: "Tasks Status (in Number)"),
+            legend: Legend(isVisible: true, overflowMode: LegendItemOverflowMode.wrap, textStyle: TextStyle(fontSize: 20), iconHeight: 20, iconWidth: 20, position: LegendPosition.bottom),
+            series: <CircularSeries>[
+            DoughnutSeries<Status, String>(
+            
+              dataSource: _statusData,
+              xValueMapper: (Status data, _) => data.status,
+              yValueMapper: (Status data, _) => data.number,
+              dataLabelSettings: DataLabelSettings(isVisible: true, textStyle: TextStyle(fontSize: 20)),
+            )
+          ],),
+        ),
       )
     );
   }
