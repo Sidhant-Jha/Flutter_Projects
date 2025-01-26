@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:sqflite/sqflite.dart';
 import 'package:todo_app_localstorage/core/database/local_database.dart';
 import 'package:todo_app_localstorage/modules/todos/model/get_todo_response_model.dart';
@@ -13,8 +12,6 @@ class TodoLocalDatabaseService {
   {
     try{
       final id = await _db.insert('todos', model.toDatabaseMap());
-      // await Future.delayed(Duration(seconds: 3));
-      log('Created todo id : $id');
       return model.copyWith(id: id);
     }
     catch(e, s)
@@ -25,7 +22,6 @@ class TodoLocalDatabaseService {
   }
 
   Future<GetTodoResponseModel?> getAllTodos({int limit = 14, int offset = 0}) async{
-    
     try{
 
     final result = await  _db.query('todos',
@@ -44,8 +40,6 @@ class TodoLocalDatabaseService {
         return TodoModel.fromDatabaseMap(map);
       }).toList();
 
-    // await Future.delayed(Duration(seconds: 2));
-
     return GetTodoResponseModel(todos: todos, total: total ?? 0);
     }
     catch(e, s)
@@ -58,8 +52,7 @@ class TodoLocalDatabaseService {
   Future<TodoModel?> updateTodo(int id, TodoModel model) async
   {
     try{
-      final result = await _db.update('todos', model.toDatabaseMap(), where: "id = ?", whereArgs: [id]);
-      log('Updated $result todo');
+      await _db.update('todos', model.toDatabaseMap(), where: "id = ?", whereArgs: [id]);
       return model;
     }
     catch(e, s)
@@ -72,14 +65,43 @@ class TodoLocalDatabaseService {
   Future<void> deleteTodo(int id) async
   {
     try{
-      final result = await _db.delete("todos", where: "id = ?", whereArgs: [id]);
-      log('Delete $result todo');
+      Future.delayed(Duration(seconds: 2));
+       final result = await _db.delete("todos", where: "id = ?", whereArgs: [id]);
+       log('${result} deleted from db');
     }
     catch(e, s)
     {
       log('deleteTodo', error: e, stackTrace: s, name: '$runtimeType');
     }
-
   }
+
+  Future<int?> totalTodo() async
+  {
+    try
+    {
+      final result = await Sqflite.firstIntValue(await _db.rawQuery('SELECT COUNT(*) FROM todos'));
+      return result;
+    }
+    catch(e, s)
+    {
+      log('totalTodo', error: e, stackTrace: s, name: '$runtimeType');
+    }
+    return null;
+  }
+
+  Future<int?> completedTodo() async
+  {
+    try
+    {
+      final result = await Sqflite.firstIntValue(await _db.rawQuery('SELECT COUNT(*) FROM todos WHERE status = ?', ['true']));
+      return result;
+    }
+    catch(e, s)
+    {
+      log('completedTodo', error: e, stackTrace: s, name: '$runtimeType');
+    }
+    return null;
+  }
+
 
 }

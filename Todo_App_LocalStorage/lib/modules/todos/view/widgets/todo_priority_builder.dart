@@ -1,4 +1,4 @@
-import 'dart:developer';
+// import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app_localstorage/modules/todos/model/todo_model.dart';
@@ -30,10 +30,10 @@ class _TodoPriorityBuilderState extends State<TodoPriorityBuilder> {
   }
   @override
   Widget build(BuildContext context) {
-    final selectedPriority = context.watch<TodoViewModel>().priority;
-    // log('${selectedPriority}');
-    return 
-        Row(
+      return Selector<TodoViewModel, TodoPriority>(
+        selector: (context, viewModel) => viewModel.priority,
+        builder: (context, selectedPriority, child) {
+          return Row(
           children: [
             Text("Priority",
               style: Theme.of(context).textTheme.titleMedium,
@@ -56,6 +56,8 @@ class _TodoPriorityBuilderState extends State<TodoPriorityBuilder> {
             }).toList()
           ]
         );
+        },
+      );
   }
 
   void _onSelectedEvent(bool value, BuildContext context, TodoPriority priority) {

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:provider/provider.dart';
 import 'package:todo_app_localstorage/modules/todos/model/todo_model.dart';
+import 'package:todo_app_localstorage/modules/todos/model/todo_parameter_model.dart';
 import 'package:todo_app_localstorage/modules/todos/view/widgets/create_todo_loader_overlay.dart';
 import 'package:todo_app_localstorage/modules/todos/view/widgets/todo_category_builder.dart';
 import 'package:todo_app_localstorage/modules/todos/view/widgets/todo_priority_builder.dart';
@@ -202,12 +203,14 @@ class _TodoUpdateScreenState extends State<TodoUpdateScreen> {
   void _onSaveButtonTapEvent(BuildContext context) {
     if(formKey.currentState?.validate() == true)
     {
+      final parameter = TodoParameterModel(title: titleController.text.trim(),
+       description: descriptionController.text.trim().isEmpty ? null : descriptionController.text.trim(),
+       dueDate: dueDateController.text,
+       dueTime: dueTimeController.text,
+        );
       context.read<TodoViewModel>().UpdateTodoEvent(
       todo: widget.model,
-      dueDate: dueDateController.text,
-      dueTime: dueTimeController.text,
-      title: titleController.text.trim(), 
-      description: descriptionController.text.trim().isEmpty ? null : descriptionController.text.trim(),
+      parameters: parameter,
       onCompleted: (result)
       {
         Navigator.of(context).pop(result);

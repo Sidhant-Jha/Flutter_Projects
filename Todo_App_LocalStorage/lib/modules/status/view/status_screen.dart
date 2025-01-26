@@ -1,6 +1,9 @@
 // import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:todo_app_localstorage/modules/status/model/status_model.dart';
+import 'package:todo_app_localstorage/modules/status/view_model/status_view_model.dart';
 // import 'package:percent_indicator/circular_percent_indicator.dart';
 
 
@@ -13,125 +16,96 @@ class StatusScreen extends StatefulWidget {
 }
 
 class _StatusScreenState extends State<StatusScreen> {
+  
 
   late List<Status> _statusData;
 
   @override
   void initState() {
     super.initState();
-    _statusData = getTodoStatus();
+    _statusData = [];
+
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
+      final statusViewModel = context.read<StatusViewModel>();
+      await statusViewModel.countAllTodo();
+      await statusViewModel.countAllCompletedTodo();
+      await statusViewModel.countAllInCompletedTodo();
+
+      setState(() {
+        _statusData = statusViewModel.getTodoStatus();
+      });
+
+    });
   }
+
+  
   @override
   Widget build(BuildContext context)
   {
+
+    // final allTodos = context.read<StatusViewModel>().allTodos;
+    // final incompletedTodos = context.read<StatusViewModel>().incompletedTodos;
+
     return SafeArea(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 50),
         child: Scaffold(
           body: SfCircularChart(
             annotations: [
-              CircularChartAnnotation(widget: Text('62%'))
+              CircularChartAnnotation(widget: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text("${_calculatePercent()}%", style: TextStyle(fontSize: 15),),
+                  Text("Task Completed", style: TextStyle(fontSize: 15),)
+                ],
+              ))
             ],
             title: ChartTitle(text: "Tasks Status (in Number)"),
             legend: Legend(isVisible: true, overflowMode: LegendItemOverflowMode.wrap, textStyle: TextStyle(fontSize: 20), iconHeight: 20, iconWidth: 20, position: LegendPosition.bottom),
             series: <CircularSeries>[
             DoughnutSeries<Status, String>(
-            
+
               dataSource: _statusData,
               xValueMapper: (Status data, _) => data.status,
               yValueMapper: (Status data, _) => data.number,
-              dataLabelSettings: DataLabelSettings(isVisible: true, textStyle: TextStyle(fontSize: 20)),
+              pointColorMapper: (Status data, _) 
+              {
+                if (data.status == "Completed") {
+                  return Colors.green; 
+                } else if (data.status == "Not Completed") {
+                  return Colors.red; 
+                }
+                return null;
+              },
+              dataLabelSettings: DataLabelSettings(isVisible: true, textStyle: TextStyle(fontSize: 20, color: Colors.black)),
+              dataLabelMapper: (Status data, _) {
+                // Logic to hide the label for the other part if one is 100%
+                final completed = _statusData.firstWhere((item) => item.status == "Completed").number;
+                final notCompleted = _statusData.firstWhere((item) => item.status == "Not Completed").number;
+
+                if (completed == 0) {
+                  return data.status == "Not Completed" ? "${data.number}" : null;
+                } else if (notCompleted == 0) {
+                  return data.status == "Completed" ? "${data.number}" : null;
+                }
+                return "${data.number}"; // Default case: show labels for both
+              },
             )
           ],),
         ),
       )
     );
+
   }
 
-  List<Status> getTodoStatus() {
-    final List<Status> statusData = [
-      Status('Completed', 54),
-      Status('Not Completed', 46)
-    ];
+  double _calculatePercent()
+  {
+    final allTodos = context.read<StatusViewModel>().allTodos;
+    final incompletedTodos = context.read<StatusViewModel>().incompletedTodos;
 
-    return statusData;
+    final calculated = ((allTodos! - (incompletedTodos!))/(allTodos))*100;
+    String value = calculated.toStringAsFixed(2);
+
+    return double.parse(value);
   }
-
 }
-
-class Status {
-  Status(this.status, this.number);
-  final String status;
-  final int number;
-}
-
-  // @override
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: AppBar(
-  //       title: Text('Todo App'),
-  //     ),
-
-      
-      // body: SingleChildScrollView(
-      //   child: Padding(padding: EdgeInsets.all(20),
-      //     child: Column(
-      //       children: [
-      //         SizedBox(height: 30,),
-      //         Row(
-      //           mainAxisAlignment: MainAxisAlignment.center,
-      //           children: [
-      //             Column(
-      //               children: [
-      //                 Text('Work', style: Theme.of(context).textTheme.headlineSmall,),
-      //                 SizedBox(height: 25,),
-      //                 CircularPercentIndicator(
-      //                     radius: 70.0,
-      //                     lineWidth: 10.0,
-      //                     percent: 0.90,
-      //                     center: new Text("90%" , style: Theme.of(context).textTheme.titleLarge),
-      //                     progressColor: Colors.green,
-      //                   ),
-      //               ],
-      //             ),
-
-      //             SizedBox(width: 50,),
-
-      //             Column(
-      //               children: [
-      //                 Text('Personal', style: Theme.of(context).textTheme.headlineSmall,),
-      //                 SizedBox(height: 25,),
-      //                 CircularPercentIndicator(
-      //                     radius: 70.0,
-      //                     lineWidth: 10.0,
-      //                     percent: 0.90,
-      //                     center: new Text("90%" , style: Theme.of(context).textTheme.titleLarge),
-      //                     progressColor: Colors.green,
-      //                   ),
-      //               ],
-      //             ),
-      //           ],
-      //         ),
-
-      //         SizedBox(height: 70,),
-
-
-      //         Column(
-      //           children: [
-      //             Text('Overall', style: Theme.of(context).textTheme.headlineSmall,),
-      //             SizedBox(height: 20,),
-      //             CircularPercentIndicator(
-      //               radius: 120.0,
-      //               lineWidth: 10.0,
-      //               percent: 0.90,
-      //               center: new Text("90%", style: Theme.of(context).textTheme.headlineSmall,),
-      //               progressColor: Colors.green,
-      //             ),
-      //           ],
-      //         ),
-      //       ],
-      //     ),),
-      // )
-//     );
-  // }
-// }

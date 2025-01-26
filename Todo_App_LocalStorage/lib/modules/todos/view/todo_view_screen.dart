@@ -4,7 +4,6 @@ import 'package:todo_app_localstorage/modules/todos/model/todo_model.dart';
 import 'package:todo_app_localstorage/modules/todos/model/todo_priority.dart';
 import 'package:todo_app_localstorage/modules/todos/view/dialog/todo_dialog_helper.dart';
 import 'package:todo_app_localstorage/modules/todos/view/todo_update_screen.dart';
-import 'package:todo_app_localstorage/modules/todos/view/widgets/create_todo_loader_overlay.dart';
 import 'package:todo_app_localstorage/modules/todos/view_model/view_model.dart';
 
 class TodoViewScreen extends StatelessWidget {
@@ -16,10 +15,8 @@ class TodoViewScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return Stack(
-      children: [
+    return
         ExpansionTile(
-          // subtitle: Text(model.category.name),
           leading: InkWell(
                   onTap: () {},
                   child: Transform.scale(
@@ -65,23 +62,23 @@ class TodoViewScreen extends StatelessWidget {
                           children: [
                             if(model.description != null)
                               Expanded(
-                                child: Text('Description : ${model.description!}',
+                                child:
+                                 Text('Description : ${model.description!}',
                                   maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
                                   style: TextStyle(
-                                    // fontWeight: FontWeight.bold,
                                     fontSize: 20,
                                   ),),
                               ),
                             if(model.description == null)
                               const Expanded(
-                                child: Text('No Description',
+                                child: 
+                                Text('No Description',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
                                     fontSize: 20,
                                   ),),
                               ),
-                        
                             IconButton.filled(
                             onPressed: () {
                             TodoDialogHelper.showDeleteConfirmationDialog(context, () {
@@ -157,10 +154,7 @@ class TodoViewScreen extends StatelessWidget {
                   ),
                 ),
               )
-          ],  
-        ),
-        CreateTodoLoaderOverlay(string: "Loading",)
-      ],
+          ]
     );
   }
   
