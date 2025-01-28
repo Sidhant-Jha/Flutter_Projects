@@ -75,7 +75,6 @@ class TodoViewModel extends ChangeNotifier{
   }
 
   Future<void> fetchMoreTodos() async{
-
     if(isLoadingMore) return;
     if(todos.length >= total) return;
     isLoadingMore = true;

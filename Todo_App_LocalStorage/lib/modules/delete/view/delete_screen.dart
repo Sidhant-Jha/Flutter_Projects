@@ -5,6 +5,14 @@ class DeleteScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(color: Colors.green,);
+    return Scaffold(
+      appBar: AppBar(
+        title: Text("Todo App"),
+      ),
+
+      // body: ,
+
+      floatingActionButton: FloatingActionButton(onPressed: () {}, child: Icon(Icons.delete),),
+    );
   }
 }

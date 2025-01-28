@@ -23,14 +23,13 @@ class TodoLocalDatabaseService {
 
   Future<GetTodoResponseModel?> getAllTodos({int limit = 14, int offset = 0}) async{
     try{
-
-    final result = await  _db.query('todos',
-    limit: limit,
-    offset: offset,
-    orderBy: 'id DESC'
-    );
-
-    final total = Sqflite.firstIntValue(
+      final result = await  _db.query
+      ('todos',
+      limit: limit,
+      offset: offset,
+      orderBy: 'id DESC'
+      );
+      final total = Sqflite.firstIntValue(
         await _db.rawQuery(
           'SELECT COUNT(*) FROM todos',
         ),

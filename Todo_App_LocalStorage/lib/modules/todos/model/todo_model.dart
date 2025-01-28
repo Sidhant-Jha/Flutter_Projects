@@ -69,7 +69,7 @@ class TodoModel {
 
   TodoModel copyWith({ int? id })
   {
-    return TodoModel(id: id ?? this.id, title: title, description: description, category: category, priority: priority, status: status, dueDate: dueDate, dueTime: dueTime, completedDate:  completedDate, completedTime: completedTime);
+    return TodoModel(id: id ?? this.id, title: title, description: description, category: category, priority: priority, status: status, dueDate: dueDate, dueTime: dueTime, completedDate: completedDate, completedTime: completedTime);
   }
 
 }
