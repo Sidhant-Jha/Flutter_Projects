@@ -13,9 +13,9 @@ class DeleteTodoModel {
    this.completedTime,
   });
 
-
   Map<String, dynamic> toDatabaseMap(DeleteTodoModel model)
   {
+    //model to Database
     return {
       'title' : model.title.trim(),
       'dueDate' : model.dueDate,
@@ -25,10 +25,21 @@ class DeleteTodoModel {
     };
   }
 
+  factory DeleteTodoModel.fromDatabaseMap(Map<String, dynamic> map)
+  {
+    //Database to Model
+    return DeleteTodoModel(
+     title: map['title'] as String,
+     dueDate: map['dueDate'] as String,
+     dueTime: map['dueTime'] as String,
+     completedDate: (map['completedDate'] as String?) != null
+        ? map['completedDate'] as String
+        : null,
+     completedTime: (map['completedTime'] as String?) != null
+        ? map['completedTime'] as String
+        : null,
+    );
+  } 
 
-
-
-
-
-
+  
 }
