@@ -19,6 +19,7 @@ class Application extends StatelessWidget {
         create: (context) => HomeViewModel())
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(
             seedColor: Colors.green

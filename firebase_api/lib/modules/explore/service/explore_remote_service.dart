@@ -31,10 +31,12 @@ class ExploreRemoteService
 
       log(response.statusCode.toString());
 
-      final result = WallpaperResponseModel.fromMap(response.data);
-      // log(result.photos.first.photographer);
-      // log('${result}');
-      return Right(result);
+      if(response.statusCode == 200)
+      {
+        final result = WallpaperResponseModel.fromMap(response.data);
+        return Right(result);
+      }
+      return left("Something went wrong");
 
     }
     on DioException catch(e)

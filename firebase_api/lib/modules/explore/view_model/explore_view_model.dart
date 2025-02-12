@@ -1,3 +1,6 @@
+
+import 'dart:developer';
+
 import 'package:dartz/dartz.dart';
 import 'package:firebase_api/modules/explore/model/wallpaper_model.dart';
 import 'package:firebase_api/modules/explore/service/explore_remote_service.dart';
@@ -15,6 +18,7 @@ class ExploreViewModel extends ChangeNotifier {
 
     }, (r) {
       wallpapers = r.photos;
+      log('dd');
       notifyListeners();
     });
   }

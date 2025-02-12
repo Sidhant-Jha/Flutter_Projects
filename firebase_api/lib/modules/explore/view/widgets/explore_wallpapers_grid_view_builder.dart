@@ -30,7 +30,7 @@ class _ExploreWallpapersGridViewBuilderState extends State<ExploreWallpapersGrid
          padding: EdgeInsets.all(12),
          gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          childAspectRatio: 1/1.25,
+          childAspectRatio: 1/1.4,
           crossAxisSpacing: 12,
           mainAxisSpacing: 12
          ),
@@ -44,6 +44,40 @@ class _ExploreWallpapersGridViewBuilderState extends State<ExploreWallpapersGrid
                 fit: BoxFit.cover,
                 image: NetworkImage(wallpaper.src.medium)),
               borderRadius: BorderRadius.circular(12)
+            ),
+            alignment: Alignment.bottomCenter,
+            child: Container(
+              padding: EdgeInsets.all(8),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.only(
+                  bottomLeft: Radius.circular(12),
+                  bottomRight: Radius.circular(12), 
+                ),
+                color: Colors.black45
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    wallpaper.photographer,
+                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Colors.white
+                    )
+                    
+                  ),
+                  SizedBox(height: 5,),
+                  Text(wallpaper.alt,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color: Colors.white
+                    ))
+                ],
+              ),
             ),
           );
          }

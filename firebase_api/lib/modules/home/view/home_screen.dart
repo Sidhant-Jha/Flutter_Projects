@@ -15,6 +15,17 @@ class HomeScreen extends StatelessWidget {
       bottomNavigationBar: HomeNavigationBar(),
       appBar: AppBar(
         title: Text('Home'),
+        actions: [
+          PopupMenuButton(itemBuilder: (context)
+          {
+            return [
+              PopupMenuItem(child: Text("Logout"), onTap: () 
+              {
+                context.read<AuthViewModel>().logoutClickEvent();
+              },)
+            ];
+          })
+        ],
       ),
       body: HomeScreenBody()
       // body : Center(child: Column(
