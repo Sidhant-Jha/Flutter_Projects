@@ -1,4 +1,5 @@
 import 'package:firebase_api/modules/explore/model/wallpaper_model.dart';
+import 'package:firebase_api/modules/explore/view/widgets/explore_wallpapers_grid_view_items.dart';
 import 'package:firebase_api/modules/explore/view_model/explore_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -37,49 +38,7 @@ class _ExploreWallpapersGridViewBuilderState extends State<ExploreWallpapersGrid
          itemBuilder: (context, index)
          {
           final wallpaper = wallpapers[index];
-          return Container(
-            decoration: BoxDecoration(
-              // border: Border.all(),
-              image: DecorationImage(
-                fit: BoxFit.cover,
-                image: NetworkImage(wallpaper.src.medium)),
-              borderRadius: BorderRadius.circular(12)
-            ),
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              padding: EdgeInsets.all(8),
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(12),
-                  bottomRight: Radius.circular(12), 
-                ),
-                color: Colors.black45
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    wallpaper.photographer,
-                    style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Colors.white
-                    )
-                    
-                  ),
-                  SizedBox(height: 5,),
-                  Text(wallpaper.alt,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Colors.white
-                    ))
-                ],
-              ),
-            ),
-          );
+          return ExploreWallpapersGridViewItems(wallpaper: wallpaper);
          }
          );
       },
