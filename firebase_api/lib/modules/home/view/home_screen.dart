@@ -28,20 +28,6 @@ class HomeScreen extends StatelessWidget {
         ],
       ),
       body: HomeScreenBody()
-      // body : Center(child: Column(
-      //   mainAxisAlignment: MainAxisAlignment.center,
-      //   children: [
-      //     Text("Welcome To Home"),
-      //     SizedBox(height: 5,),
-      //     ElevatedButton(onPressed: () {
-      //       context.read<AuthViewModel>().logoutClickEvent();
-      //     },
-      //      child: Text('Logout')
-      //     ),
-      //     SizedBox(height: 5,),
-      //     Text(EnvService.apiKey)
-      //   ],
-      // ),),
     );
   }
 }

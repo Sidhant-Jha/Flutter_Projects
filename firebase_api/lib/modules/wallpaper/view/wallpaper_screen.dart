@@ -1,4 +1,5 @@
 import 'package:firebase_api/modules/explore/model/wallpaper_model.dart';
+import 'package:firebase_api/modules/wallpaper/view/widgets/add_to_collection_icon_button.dart';
 import 'package:firebase_api/modules/wallpaper/view/widgets/favourite_wallpaper_icon_button.dart';
 import 'package:firebase_api/modules/wallpaper/view_model/wallpaper_view_model.dart';
 import 'package:flutter/material.dart';
@@ -29,7 +30,8 @@ class _WallpaperScreenState extends State<WallpaperScreen> {
         title: Text("Wallpaper"),
         actions: [
           FavouriteWallpaperIconButton(),
-          SizedBox(width: 20,)
+          SizedBox(width: 20,),
+          AddToCollectionIconButton()
         ],
       ),
       body: Container(
