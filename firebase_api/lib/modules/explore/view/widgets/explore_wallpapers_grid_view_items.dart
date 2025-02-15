@@ -1,5 +1,6 @@
 import 'package:firebase_api/modules/explore/model/wallpaper_model.dart';
 import 'package:firebase_api/modules/wallpaper/view/wallpaper_screen.dart';
+import 'package:firebase_api/modules/wallpaper/view/wallpaper_screen_provider.dart';
 import 'package:flutter/material.dart';
 
 class ExploreWallpapersGridViewItems extends StatelessWidget {
@@ -14,7 +15,7 @@ class ExploreWallpapersGridViewItems extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(builder: (context) => WallpaperScreen(model: wallpaper)));
+        Navigator.of(context).push(MaterialPageRoute(builder: (context) => WallpaperScreenProvider(model: wallpaper)));
       },
       child: Container(
         decoration: BoxDecoration(

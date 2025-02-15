@@ -25,6 +25,19 @@ class WallpaperUrlModel
     );
   }
 
+  Map<String, dynamic> toMap() {
+    return {
+      'original': original,
+      'large2x': large2x,
+      'large': large,
+      'medium': medium,
+      'small': small,
+      'portrait': portrait,
+      'landscape': landscape,
+      'tiny': tiny,
+    };
+  }
+
   final String original;
   final String large2x;
   final String large;

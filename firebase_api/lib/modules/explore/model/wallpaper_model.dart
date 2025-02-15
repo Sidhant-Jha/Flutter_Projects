@@ -29,6 +29,21 @@ class WallpaperModel {
     );
   }
 
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'width': width,
+      'height': height,
+      'url': url,
+      'photographer': photographer,
+      'photographer_url': photographerUrl,
+      'photographer_id': photographerId,
+      'avg_color': avgColor,
+      'src': src.toMap(),
+      'alt': alt,
+    };
+  }
+
   final int id;
   final int width;
   final int height;

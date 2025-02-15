@@ -7,7 +7,7 @@ class AuthService {
 final _googleSignIn = GoogleSignIn();
 final _firebaseAuth = FirebaseAuth.instance;
 
-Future<User?> getUser() async
+User? getUser()
 {
   return _firebaseAuth.currentUser;
 }
