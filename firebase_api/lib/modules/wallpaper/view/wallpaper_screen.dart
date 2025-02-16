@@ -30,7 +30,7 @@ class _WallpaperScreenState extends State<WallpaperScreen> {
         title: Text("Wallpaper"),
         actions: [
           FavouriteWallpaperIconButton(),
-          SizedBox(width: 20,),
+          SizedBox(width: 25,),
           AddToCollectionIconButton()
         ],
       ),

@@ -12,13 +12,9 @@ class FavouriteWallpaperIconButton extends StatelessWidget {
     return Selector<WallpaperViewModel, bool?>(
       selector: (context, vm) => vm.isFavourite,
       builder: (context, isFavourite, child) {
-        // if (isFavourite == null)
-        // {
-        //   log('potty');
-        //   return const SizedBox();
-        // }
         return IconButton(
           icon: Icon(
+            color: Colors.pink,
             isFavourite ?? false
                 ? Icons.favorite_rounded
                 : Icons.favorite_outline_rounded,
@@ -29,10 +25,5 @@ class FavouriteWallpaperIconButton extends StatelessWidget {
         );
       },
     );
-    
-    // IconButton(onPressed: () {
-    //   context.read<WallpaperViewModel>().addToFavouriteClickEvent();
-    // },
-    //  icon: Icon(Icons.favorite_border));
   }
 }

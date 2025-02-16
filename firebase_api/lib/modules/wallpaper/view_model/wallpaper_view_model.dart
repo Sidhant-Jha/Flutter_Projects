@@ -1,4 +1,6 @@
 import 'package:firebase_api/modules/explore/model/wallpaper_model.dart';
+import 'package:firebase_api/modules/wallpaper/model/wallpaper_collection_model.dart';
+import 'package:firebase_api/modules/wallpaper/model/wallpaper_collection_type.dart';
 import 'package:firebase_api/modules/wallpaper/service/wallpaper_database_service.dart';
 import 'package:flutter/material.dart';
 
@@ -31,4 +33,26 @@ class WallpaperViewModel extends ChangeNotifier
     }
     notifyListeners();
   }
+
+
+  WallpaperCollectionType category = WallpaperCollectionType.private;
+
+
+  void changeCollectionTypeEvent(WallpaperCollectionType category)
+  {
+    this.category = category;
+    notifyListeners();
+  }
+
+  Future<void> createCollectionEvent({required String parameters}) async
+  {
+    final model = WallpaperCollectionModel(
+      collectionName: parameters,
+      category: category,
+    );
+
+    
+  }
+
+
 }
