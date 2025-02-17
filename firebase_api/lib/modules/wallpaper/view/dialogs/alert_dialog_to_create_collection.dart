@@ -29,7 +29,7 @@ class AlertDialogToCreateCollection extends StatelessWidget {
                     validator: (input)
                     {
                       if(input == null) return "Name is required";
-                      if(input.trim().length <= 10) return "Minimum 5 characters are required";
+                      if(input.trim().length <= 5) return "Minimum 5 characters are required";
                       if(input.trim().isEmpty) return "Name is required";
                       return null;                     
                     },
@@ -57,13 +57,17 @@ class AlertDialogToCreateCollection extends StatelessWidget {
     );
   }
 
-  void _onAddButtonTapEvent(BuildContext context) {
+  void _onAddButtonTapEvent(BuildContext context) async{
     if(formKey.currentState?.validate() == true)
     {
       final parameter = collectionNameController.text.trim();
-      context.read<WallpaperViewModel>().createCollectionEvent(
-        parameters: parameter,
-      );
+      final collectionModel = WallpaperCollectionModel(collectionName: parameter, category: context.read<WallpaperViewModel>().category);
+      await context.read<WallpaperViewModel>().addToPublicCollectionEvent(
+        collectionModel: collectionModel);
+
+      Navigator.of(context).pop();
+
+       
     }
   }
 

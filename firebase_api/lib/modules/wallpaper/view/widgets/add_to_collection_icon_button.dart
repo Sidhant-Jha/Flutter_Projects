@@ -13,6 +13,8 @@ class AddToCollectionIconButton extends StatelessWidget {
 
   void showBottomSheet(BuildContext context) {
   showModalBottomSheet(
+    // backgroundColor: Theme.of(context).colorScheme.surface,
+    backgroundColor: Colors.green.shade100,
     context: context,
     builder: (newContext) => ChangeNotifierProvider.value(
       value: context.read<WallpaperViewModel>(), // Pass the existing provider
