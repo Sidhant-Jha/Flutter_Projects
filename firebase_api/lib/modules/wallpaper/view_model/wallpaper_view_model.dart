@@ -13,6 +13,7 @@ class WallpaperViewModel extends ChangeNotifier
   final WallpaperModel model;
 
   final _service = WallpaperDatabaseService();
+  
 
   bool? isFavourite;
 

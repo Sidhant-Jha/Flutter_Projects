@@ -18,6 +18,7 @@ class WallpaperCollectionModel {
   Map<String, dynamic> toMap()
   {
     return {
+
       'collectionName' : collectionName,
       'category' : category.name
     };

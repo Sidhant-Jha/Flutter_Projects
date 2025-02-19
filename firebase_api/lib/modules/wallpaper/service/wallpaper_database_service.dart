@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_api/modules/auth/services/auth_service.dart';
 import 'package:firebase_api/modules/explore/model/wallpaper_model.dart';
+import 'package:firebase_api/modules/wallpaper/model/public_collection_model.dart';
 import 'package:firebase_api/modules/wallpaper/model/wallpaper_collection_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -51,40 +52,84 @@ class WallpaperDatabaseService {
     await ref.delete();
   }
 
-  DocumentReference<Map<String, dynamic>>? wallpaperPublicCollectionRef(WallpaperCollectionModel model)
+  DocumentReference<Map<String, dynamic>>? publicCollectionRef(WallpaperCollectionModel collectionModel, WallpaperModel model)
   {
 
     return _client
       .collection('collections')
-      .doc(jsonEncode(model.toMap()));
+      .doc(collectionModel.collectionName);
+      
+  }
+
+  DocumentReference<Map<String, dynamic>>? publicWallpaperCollectionRef(WallpaperCollectionModel collectionModel, WallpaperModel model)
+  {
+
+    return _client
+      .collection('collections')
+      .doc(collectionModel.collectionName)
+      .collection('wallpapers')
+      .doc(model.id.toString());
+      
   }
 
 
   Future<void> addToPublicCollection(WallpaperCollectionModel collectionModel, WallpaperModel model) async
-  {
-    final ref = wallpaperPublicCollectionRef(collectionModel);
+  { 
+    final ref2 = publicWallpaperCollectionRef(collectionModel, model);
+    if(ref2 == null) return;
+
+    final wallpaperSnapShot = await ref2.get();
+    if(wallpaperSnapShot.exists)
+    {
+      return;
+    }
+
+    final ref = publicCollectionRef(collectionModel, model);
     if(ref == null) return;
 
-    await ref.set(model.toMap());
+    await ref.set(collectionModel.toMap());
+
+    await ref2.set(model.toMap());
   }
 
   Future<List<WallpaperCollectionModel>?> getAllPublicCollections() async {
+    
+  try
+  {
+    final QuerySnapshot<Map<String, dynamic>> collectionQuery = await _client.collection('collections').get();
 
-    final ref = _client
-      .collection('collections');
+    final collections = collectionQuery.docs.map((collection) => PublicCollectionModel.fromSnapShot(collection).model).toList();
 
-    try
-    {
-    final snapShot = await ref.get();
-    final value = snapShot.docs.map((doc) => doc.id).toList();
-    final va = value.map((value) => WallpaperCollectionModel.fromDatabaseMap(jsonDecode(value))).toList();
-    return va;
-    }
-    catch(e, s)
-    {
-      log('createUser', name: '$runtimeType', error: e, stackTrace: s);
+    log('$collections');
+
+    return collections;
+  }
+  catch(e, s)
+  {
+     log('createUser', name: '$runtimeType', error: e, stackTrace: s);
       return null;
-    }
+  }
+
+
+
+    // DocumentReference parentref = _client
+    //   .collection('collections').doc();
+
+    // try
+    // {
+    // // final snapShot = await ref.get();
+    // // List<CollectionReference> value =  await parentref.listCollections();
+    // // o
+    // // log('${value}');
+    // // final va = value.map((value) => WallpaperCollectionModel.fromDatabaseMap(jsonDecode(value))).toList();
+    // // log('${value.map((value) => WallpaperCollectionModel.fromDatabaseMap(jsonDecode(value))).toList()}');
+    // // return va;
+    // }
+    // catch(e, s)
+    // {
+    //   log('createUser', name: '$runtimeType', error: e, stackTrace: s);
+    //   return null;
+    // }
   }
 
 

@@ -61,12 +61,12 @@ class AlertDialogToCreateCollection extends StatelessWidget {
     if(formKey.currentState?.validate() == true)
     {
       final parameter = collectionNameController.text.trim();
+      // final User currentUser = context.read<WallpaperViewModel>(). 
       final collectionModel = WallpaperCollectionModel(collectionName: parameter, category: context.read<WallpaperViewModel>().category);
       await context.read<WallpaperViewModel>().addToPublicCollectionEvent(
         collectionModel: collectionModel);
 
       Navigator.of(context).pop();
-
        
     }
   }
