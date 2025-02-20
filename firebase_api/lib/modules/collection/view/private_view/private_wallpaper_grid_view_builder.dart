@@ -2,20 +2,20 @@ import 'package:firebase_api/modules/collection/view_model/collection_view_model
 import 'package:firebase_api/modules/explore/model/wallpaper_model.dart';
 import 'package:firebase_api/modules/explore/view/widgets/explore_wallpapers_grid_view.dart';
 import 'package:firebase_api/modules/wallpaper/model/wallpaper_collection_model.dart';
-import 'package:firebase_api/modules/wallpaper/model/wallpaper_collection_type.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class PublicWallpaperGridViewBuilder extends StatefulWidget {
-  const PublicWallpaperGridViewBuilder({super.key, required this.model});
+class PrivateWallpaperGridViewBuilder extends StatefulWidget {
+  const PrivateWallpaperGridViewBuilder({super.key, required this.model});
+
 
   final WallpaperCollectionModel model;
 
   @override
-  State<PublicWallpaperGridViewBuilder> createState() => _PublicWallpaperGridViewBuilderState();
+  State<PrivateWallpaperGridViewBuilder> createState() => _PrivateWallpaperGridViewBuilderState();
 }
 
-class _PublicWallpaperGridViewBuilderState extends State<PublicWallpaperGridViewBuilder> {
+class _PrivateWallpaperGridViewBuilderState extends State<PrivateWallpaperGridViewBuilder> {
 
   @override
   void initState() {
@@ -23,7 +23,7 @@ class _PublicWallpaperGridViewBuilderState extends State<PublicWallpaperGridView
     super.initState();
     Future.microtask(()
     {
-      context.read<CollectionViewModel>().getPublicCollectionWallpapersEvent(widget.model);
+      context.read<CollectionViewModel>().getPrivateCollectionWallpapersEvent(widget.model);
     });
   }
   @override

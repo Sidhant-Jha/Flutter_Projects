@@ -61,10 +61,38 @@ class WallpaperDatabaseService {
       
   }
 
+  DocumentReference<Map<String, dynamic>>? privateCollectionRef(WallpaperCollectionModel collectionModel, WallpaperModel model)
+  {
+    final currentUser = _authService.getUser();
+    if(currentUser == null) return null;
+
+    return _client
+      .collection('users')
+      .doc(currentUser.uid)
+      .collection('collections')
+      .doc(collectionModel.collectionName);
+      
+  }
+
   DocumentReference<Map<String, dynamic>>? publicWallpaperCollectionRef(WallpaperCollectionModel collectionModel, WallpaperModel model)
   {
 
     return _client
+      .collection('collections')
+      .doc(collectionModel.collectionName)
+      .collection('wallpapers')
+      .doc(model.id.toString());
+      
+  }
+
+  DocumentReference<Map<String, dynamic>>? privateWallpaperCollectionRef(WallpaperCollectionModel collectionModel, WallpaperModel model)
+  {
+    final currentUser = _authService.getUser();
+    if(currentUser == null) return null;
+
+    return _client
+      .collection('users')
+      .doc(currentUser.uid)
       .collection('collections')
       .doc(collectionModel.collectionName)
       .collection('wallpapers')
@@ -92,13 +120,41 @@ class WallpaperDatabaseService {
     await ref2.set(model.toMap());
   }
 
+
+  Future<void> addToPrivateCollection(WallpaperCollectionModel collectionModel, WallpaperModel model) async
+  { 
+    final ref2 = privateWallpaperCollectionRef(collectionModel, model);
+    if(ref2 == null) return;
+
+    final wallpaperSnapShot = await ref2.get();
+    if(wallpaperSnapShot.exists)
+    {
+      return;
+    }
+
+    final ref = privateCollectionRef(collectionModel, model);
+    if(ref == null) return;
+
+    await ref.set(collectionModel.toMap());
+
+    await ref2.set(model.toMap());
+  }
+
+
   Future<List<WallpaperCollectionModel>?> getAllPublicCollections() async {
     
   try
   {
-    final QuerySnapshot<Map<String, dynamic>> collectionQuery = await _client.collection('collections').get();
+    final currentUser = _authService.getUser();
+    if(currentUser == null) return null;
 
-    final collections = collectionQuery.docs.map((collection) => PublicCollectionModel.fromSnapShot(collection).model).toList();
+    final QuerySnapshot<Map<String, dynamic>> publicCollectionQuery = await _client.collection('collections').get();
+    final QuerySnapshot<Map<String, dynamic>> privateCollectionQuery = await _client.collection('users').doc(currentUser.uid).collection('collections').get();
+
+
+    final collections = privateCollectionQuery.docs.map((collection) => WallpaperCollectionModel.fromDatabaseMap(collection.data())).toList();
+    
+    publicCollectionQuery.docs.map((collection) => collections.add(WallpaperCollectionModel.fromDatabaseMap(collection.data()))).toList();
 
     log('$collections');
 

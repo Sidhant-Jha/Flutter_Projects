@@ -7,16 +7,16 @@ import 'package:firebase_api/modules/wallpaper/view_model/wallpaper_view_model.d
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-class showCollectionBottomSheet extends StatefulWidget {
-  const showCollectionBottomSheet({
+class ShowCollectionBottomSheet extends StatefulWidget {
+  const ShowCollectionBottomSheet({
     super.key,
   });
 
   @override
-  State<showCollectionBottomSheet> createState() => _showCollectionBottomSheetState();
+  State<ShowCollectionBottomSheet> createState() => _ShowCollectionBottomSheetState();
 }
 
-class _showCollectionBottomSheetState extends State<showCollectionBottomSheet> {
+class _ShowCollectionBottomSheetState extends State<ShowCollectionBottomSheet> {
 
 
 
@@ -48,7 +48,7 @@ class _showCollectionBottomSheetState extends State<showCollectionBottomSheet> {
             alertDialogToCreateCollection(context);
           }, child: Text("Create New Collection")),
           SizedBox(height: 20,),
-          Flexible(
+          Expanded(
             child: ListView.builder(
               itemCount: publicCollections.length,
               itemBuilder: (context, index)

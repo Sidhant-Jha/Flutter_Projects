@@ -9,6 +9,7 @@ class CollectionViewModel extends ChangeNotifier
 
   final _service = CollectionDatabaseService();
   List<PublicCollectionModel> publicCollections = [];
+  List<WallpaperCollectionModel> privateCollections = [];
   List<WallpaperModel> wallpapers = [];
 
   Future<void> getAllPublicCollectionsEvent() async {
@@ -17,8 +18,20 @@ class CollectionViewModel extends ChangeNotifier
     notifyListeners();
   }
 
+  Future<void> getAllPrivateCollectionsEvent() async {
+    final result = await _service.getAllPrivateCollections();
+    privateCollections = result ?? [];
+    notifyListeners();
+  }
+
   Future<void> getPublicCollectionWallpapersEvent(WallpaperCollectionModel model) async {
     final result = await _service.getPublicCollectionWallpapers(model);
+    wallpapers = result ?? [];
+    notifyListeners();
+  }
+
+  Future<void> getPrivateCollectionWallpapersEvent(WallpaperCollectionModel model) async {
+    final result = await _service.getPrivateCollectionWallpapers(model);
     wallpapers = result ?? [];
     notifyListeners();
   }

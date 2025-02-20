@@ -65,8 +65,15 @@ class WallpaperViewModel extends ChangeNotifier
     //   collectionName: parameters,
     //   category: category,
     // );
+    if(collectionModel.category == 'public')
+    {
+      await _service.addToPublicCollection(collectionModel, model);
+    }
+    else
+    {
+      await _service.addToPrivateCollection(collectionModel, model);
+    }
 
-    await _service.addToPublicCollection(collectionModel, model);
     notifyListeners();
   }
 

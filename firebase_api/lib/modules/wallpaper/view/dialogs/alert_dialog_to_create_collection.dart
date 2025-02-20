@@ -68,7 +68,11 @@ class AlertDialogToCreateCollection extends StatelessWidget {
       await context.read<WallpaperViewModel>().addToPublicCollectionEvent(
         collectionModel: collectionModel);
 
-      Navigator.of(context).pop();
+      Future.delayed(Duration(milliseconds: 100), () {
+        if (Navigator.canPop(context)) {
+          Navigator.pop(context);
+        }
+      });
        
     }
   }

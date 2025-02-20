@@ -18,7 +18,7 @@ class AddToCollectionIconButton extends StatelessWidget {
     context: context,
     builder: (newContext) => ChangeNotifierProvider.value(
       value: context.read<WallpaperViewModel>(), // Pass the existing provider
-      child: showCollectionBottomSheet(),
+      child: ShowCollectionBottomSheet(),
     ),
   );
 }
