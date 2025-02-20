@@ -10,7 +10,9 @@ class PublicCollectionModel {
 
   factory PublicCollectionModel.fromSnapShot(QueryDocumentSnapshot<Map<String, dynamic>> snapshot)
   {
-    return PublicCollectionModel(wallpaper: [], model: WallpaperCollectionModel(collectionName: snapshot['collectionName'], category: mapToWallpaperType(snapshot['category'] as String)));
+    return PublicCollectionModel(wallpaper: [], model: WallpaperCollectionModel(
+      userName: snapshot['userName'], emailId: snapshot['emailId'],
+      collectionName: snapshot['collectionName'], category: mapToWallpaperType(snapshot['category'] as String)));
   }
 
 }

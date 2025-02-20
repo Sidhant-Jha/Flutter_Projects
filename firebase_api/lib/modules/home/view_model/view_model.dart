@@ -1,4 +1,5 @@
 import 'package:firebase_api/modules/collection/view/collection_page.dart';
+import 'package:firebase_api/modules/collection/view/collection_page_provider.dart';
 import 'package:firebase_api/modules/explore/view/explore_page.dart';
 import 'package:firebase_api/modules/explore/view/explore_page_provider.dart';
 import 'package:firebase_api/modules/favorites/view/favourite_page_provider.dart';
@@ -11,7 +12,7 @@ class HomeViewModel extends ChangeNotifier
 {
   final navigationItems = [
     BottomNavModel(icon: Icon(Icons.home), name: "Home", page: ExplorePageProvider()),
-    BottomNavModel(icon: Icon(Icons.collections_bookmark_outlined), name: "Collection", page: CollectionPage()),
+    BottomNavModel(icon: Icon(Icons.collections_bookmark_outlined), name: "Collection", page: CollectionPageProvider()),
     BottomNavModel(icon: Icon(Icons.favorite), name: "Favorite", page: FavouritePageProvider()),
   ];
 

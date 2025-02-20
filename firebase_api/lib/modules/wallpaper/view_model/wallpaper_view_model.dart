@@ -1,9 +1,11 @@
 import 'dart:developer';
 
+import 'package:firebase_api/modules/auth/services/auth_service.dart';
 import 'package:firebase_api/modules/explore/model/wallpaper_model.dart';
 import 'package:firebase_api/modules/wallpaper/model/wallpaper_collection_model.dart';
 import 'package:firebase_api/modules/wallpaper/model/wallpaper_collection_type.dart';
 import 'package:firebase_api/modules/wallpaper/service/wallpaper_database_service.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class WallpaperViewModel extends ChangeNotifier
@@ -13,6 +15,14 @@ class WallpaperViewModel extends ChangeNotifier
   final WallpaperModel model;
 
   final _service = WallpaperDatabaseService();
+  final _authService = AuthService();
+
+  User? getUser()
+  {
+    final user = _authService.getUser();
+    return user;
+
+  }
   
 
   bool? isFavourite;

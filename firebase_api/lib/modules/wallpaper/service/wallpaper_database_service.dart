@@ -110,26 +110,6 @@ class WallpaperDatabaseService {
       return null;
   }
 
-
-
-    // DocumentReference parentref = _client
-    //   .collection('collections').doc();
-
-    // try
-    // {
-    // // final snapShot = await ref.get();
-    // // List<CollectionReference> value =  await parentref.listCollections();
-    // // o
-    // // log('${value}');
-    // // final va = value.map((value) => WallpaperCollectionModel.fromDatabaseMap(jsonDecode(value))).toList();
-    // // log('${value.map((value) => WallpaperCollectionModel.fromDatabaseMap(jsonDecode(value))).toList()}');
-    // // return va;
-    // }
-    // catch(e, s)
-    // {
-    //   log('createUser', name: '$runtimeType', error: e, stackTrace: s);
-    //   return null;
-    // }
   }
 
 
