@@ -55,7 +55,7 @@ class _PublicCollectionsGridViewBuilderState extends State<PublicCollectionsGrid
                   alignment: Alignment.bottomCenter,
                 child: Column(
                   children: [
-                        Expanded(child: Center(child: Text(collection.model.collectionName!))),
+                        Expanded(child: Center(child: Text(collection.model.collectionName!, style: Theme.of(context).textTheme.titleMedium))),
                         Container(
                             padding: EdgeInsets.all(8),
                             width: double.infinity,

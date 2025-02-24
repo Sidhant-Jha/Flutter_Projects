@@ -23,7 +23,12 @@ class _ShowCollectionBottomSheetState extends State<ShowCollectionBottomSheet> {
   @override
   void initState() {
     super.initState();
-    context.read<WallpaperViewModel>().getAllPublicCollectionsEvent();
+
+    Future.microtask(()
+    {
+      if(mounted)
+        context.read<WallpaperViewModel>().getAllPublicCollectionsEvent();
+    });
   }
 
   @override
@@ -49,13 +54,24 @@ class _ShowCollectionBottomSheetState extends State<ShowCollectionBottomSheet> {
           }, child: Text("Create New Collection")),
           SizedBox(height: 20,),
           Expanded(
-            child: ListView.builder(
+            child: Selector<WallpaperViewModel, bool>(
+              selector: (_, vm) => vm.isVisible,
+              builder: (context, isVisible, child) {
+
+                if(!isVisible) {
+                  return Center(child: CircularProgressIndicator(),);
+                }
+
+                return ListView.builder(
               itemCount: publicCollections.length,
               itemBuilder: (context, index)
               {
                 final publicCollection = publicCollections[index];
                 log(publicCollection.toString());
                 return ListTile(
+                  onTap: () {
+                    log('${publicCollection.category.name}');
+                  },
                   tileColor: Colors.green.shade200,
                   title: Text('${publicCollection.collectionName!}', style: Theme.of(context).textTheme.titleLarge,),
                   subtitle: Text(publicCollection.category.name, style: Theme.of(context).textTheme.bodyMedium),
@@ -64,7 +80,11 @@ class _ShowCollectionBottomSheetState extends State<ShowCollectionBottomSheet> {
                   }, icon: Icon(Icons.add_circle_outline_outlined)),
                 );
               }
-            ),
+            );
+              },
+            )
+            
+            
           )
         ],
       );

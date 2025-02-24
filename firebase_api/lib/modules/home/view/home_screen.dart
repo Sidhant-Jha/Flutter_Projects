@@ -1,5 +1,6 @@
 import 'package:firebase_api/core/env_service.dart';
 import 'package:firebase_api/modules/auth/view_model/auth_view_model.dart';
+import 'package:firebase_api/modules/chat/all_chat/view/all_chat_provider.dart';
 import 'package:firebase_api/modules/home/view/widgets/home_navigation_bar.dart';
 import 'package:firebase_api/modules/home/view/widgets/home_screen_body.dart';
 import 'package:firebase_api/modules/home/view_model/view_model.dart';
@@ -16,6 +17,10 @@ class HomeScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Home'),
         actions: [
+          IconButton(onPressed: () 
+          {
+            Navigator.of(context).push(MaterialPageRoute(builder: (context) => AllChatProvider()));
+          }, icon: Icon(Icons.message)),
           PopupMenuButton(itemBuilder: (context)
           {
             return [

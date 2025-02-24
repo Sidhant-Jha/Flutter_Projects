@@ -11,14 +11,21 @@ class ExploreViewModel extends ChangeNotifier {
 
   final _service = ExploreRemoteService();
 
+  bool isVisible = true;
+
   void fetchWallpaper() async
   {
+    isVisible = false;
+    notifyListeners();
+
     final response = await _service.getWallpapers();
     response.fold((l) {
 
     }, (r) {
       wallpapers = r.photos;
-      log('dd');
+
+      isVisible = true;
+      // log('dd');
       notifyListeners();
     });
   }

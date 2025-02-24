@@ -46,7 +46,7 @@ class _PrivateCollectionsGridViewBuilderState extends State<PrivateCollectionsGr
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Center(
-                  child: Text(collection.collectionName!),
+                  child: Text(collection.collectionName!,  style: Theme.of(context).textTheme.titleMedium),
                 ),
               ),
             );

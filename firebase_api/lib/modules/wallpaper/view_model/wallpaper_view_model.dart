@@ -14,6 +14,8 @@ class WallpaperViewModel extends ChangeNotifier
 
   final WallpaperModel model;
 
+  bool isVisible = true;
+
   final _service = WallpaperDatabaseService();
   final _authService = AuthService();
 
@@ -61,11 +63,7 @@ class WallpaperViewModel extends ChangeNotifier
 
   Future<void> addToPublicCollectionEvent({required WallpaperCollectionModel collectionModel}) async
   {
-    // final collectionModel = WallpaperCollectionModel(
-    //   collectionName: parameters,
-    //   category: category,
-    // );
-    if(collectionModel.category == 'public')
+    if(collectionModel.category.name == 'public')
     {
       await _service.addToPublicCollection(collectionModel, model);
     }
@@ -78,8 +76,11 @@ class WallpaperViewModel extends ChangeNotifier
   }
 
   Future<void> getAllPublicCollectionsEvent() async {
+    isVisible = false;
+    notifyListeners();
     final result = await _service.getAllPublicCollections();
     publicCollections = result ?? [];
+    isVisible = true;
     notifyListeners();
   }
 
