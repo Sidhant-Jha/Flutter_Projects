@@ -28,7 +28,13 @@ class _PublicCollectionsGridViewBuilderState extends State<PublicCollectionsGrid
     return Selector<CollectionViewModel, List<PublicCollectionModel>>(
       selector: (context, vm) => vm.publicCollections,
       builder: (context, publicCollections, child) {
-        return GridView.builder(
+        return Selector<CollectionViewModel, bool>(
+          selector: (_, vm) => vm.isVisible,
+          builder: (context, isVisible, child) {
+            if(!isVisible){
+              return Center(child: CircularProgressIndicator(),);
+            }
+            return GridView.builder(
           itemCount: publicCollections.length,
           padding: EdgeInsets.all(12),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -95,6 +101,10 @@ class _PublicCollectionsGridViewBuilderState extends State<PublicCollectionsGrid
             );
           }
         );
+          },
+        );
+        
+        
       },
     );
   }

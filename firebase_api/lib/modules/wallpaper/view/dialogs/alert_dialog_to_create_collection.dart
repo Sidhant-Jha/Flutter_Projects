@@ -65,14 +65,29 @@ class AlertDialogToCreateCollection extends StatelessWidget {
       final collectionModel = WallpaperCollectionModel(
         userName: currentUser?.displayName, emailId: currentUser?.email,
         collectionName: parameter, category: context.read<WallpaperViewModel>().category);
-      await context.read<WallpaperViewModel>().addToPublicCollectionEvent(
-        collectionModel: collectionModel);
 
-      Future.delayed(Duration(milliseconds: 100), () {
-        if (Navigator.canPop(context)) {
-          Navigator.pop(context);
-        }
-      });
+        try {
+        await context.read<WallpaperViewModel>().addToPublicCollectionEvent(
+          collectionModel: collectionModel,
+        );
+        Navigator.pop(context);
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Container(
+            height: 35,
+            child: Padding(
+              padding: EdgeInsets.all(8),
+              child: Text('Collection added successfully!')))),
+        );
+
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Container(
+            height: 30,
+            child: Padding(
+              padding: EdgeInsets.all(10),
+              child: Text('Failed to add collection!')))),
+        );
+      }
        
     }
   }

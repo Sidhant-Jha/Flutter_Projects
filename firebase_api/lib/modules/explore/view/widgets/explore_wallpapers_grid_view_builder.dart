@@ -6,7 +6,9 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 class ExploreWallpapersGridViewBuilder extends StatefulWidget {
-  const ExploreWallpapersGridViewBuilder({super.key});
+  const ExploreWallpapersGridViewBuilder({super.key, this.wallpapers});
+
+  final List<WallpaperModel>? wallpapers;
 
   @override
   State<ExploreWallpapersGridViewBuilder> createState() => _ExploreWallpapersGridViewBuilderState();

@@ -24,7 +24,13 @@ class _PrivateCollectionsGridViewBuilderState extends State<PrivateCollectionsGr
     return Selector<CollectionViewModel, List<WallpaperCollectionModel>>(
       selector: (context, vm) => vm.privateCollections,
       builder: (context, privateCollections, child) {
-        return GridView.builder(
+        return Selector<CollectionViewModel, bool>(
+          selector: (_, vm) => vm.isVisible,
+          builder: (context, isVisible, child) {
+            if(!isVisible) {
+              return Center(child: CircularProgressIndicator(),);
+            }
+            return GridView.builder(
           itemCount: privateCollections.length,
           padding: EdgeInsets.all(12),
           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
@@ -52,6 +58,10 @@ class _PrivateCollectionsGridViewBuilderState extends State<PrivateCollectionsGr
             );
           }
         );
+          }
+        );
+        
+        
       }
     );
   }

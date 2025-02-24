@@ -1,6 +1,7 @@
 import 'package:firebase_api/modules/auth/view/auth_guard.dart';
 import 'package:firebase_api/modules/auth/view/auth_screen.dart';
 import 'package:firebase_api/modules/auth/view_model/auth_view_model.dart';
+import 'package:firebase_api/modules/explore/view_model/explore_view_model.dart';
 import 'package:firebase_api/modules/home/view_model/view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -16,7 +17,10 @@ class Application extends StatelessWidget {
         create: (context) => AuthViewModel()),
 
         ChangeNotifierProvider(
-        create: (context) => HomeViewModel())
+        create: (context) => HomeViewModel()),
+
+        ChangeNotifierProvider(
+          create: (context) => ExploreViewModel())
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

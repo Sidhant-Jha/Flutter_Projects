@@ -12,15 +12,27 @@ class CollectionViewModel extends ChangeNotifier
   List<WallpaperCollectionModel> privateCollections = [];
   List<WallpaperModel> wallpapers = [];
 
+  bool isVisible = true;
+
   Future<void> getAllPublicCollectionsEvent() async {
+    isVisible = false;
+    notifyListeners();
+
     final result = await _service.getAllPublicCollections();
     publicCollections = result ?? [];
+
+    isVisible = true;
     notifyListeners();
   }
 
   Future<void> getAllPrivateCollectionsEvent() async {
+    isVisible = false;
+    notifyListeners();
+
     final result = await _service.getAllPrivateCollections();
     privateCollections = result ?? [];
+    
+    isVisible = true;
     notifyListeners();
   }
 

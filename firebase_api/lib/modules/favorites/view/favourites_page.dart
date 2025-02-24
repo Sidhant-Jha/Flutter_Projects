@@ -1,5 +1,6 @@
 import 'package:firebase_api/modules/explore/model/wallpaper_model.dart';
 import 'package:firebase_api/modules/explore/view/widgets/explore_wallpapers_grid_view.dart';
+import 'package:firebase_api/modules/favorites/view/favourites_page_refresh_indicator.dart';
 import 'package:firebase_api/modules/favorites/view_model/favourite_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -26,10 +27,7 @@ class _FavouritesPageState extends State<FavouritesPage> {
     return Selector<FavouriteViewModel, List<WallpaperModel>>(
       selector: (context, vm) => vm.wallpapers,
       builder: (context, wallpapers, child) {
-        return RefreshIndicator(
-          onRefresh: context.read<FavouriteViewModel>().fetchWallpapers,
-          child: ExploreWallpapersGridView(wallpapers: wallpapers)
-        );
+        return FavouritesPageRefreshIndicator(wallpapers: wallpapers,);
       },
     );
   }

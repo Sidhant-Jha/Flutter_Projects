@@ -1,6 +1,7 @@
 import 'package:firebase_api/modules/collection/view_model/collection_view_model.dart';
 import 'package:firebase_api/modules/explore/model/wallpaper_model.dart';
 import 'package:firebase_api/modules/explore/view/widgets/explore_wallpapers_grid_view.dart';
+import 'package:firebase_api/modules/explore/view/widgets/explore_wallpapers_grid_view_builder.dart';
 import 'package:firebase_api/modules/wallpaper/model/wallpaper_collection_model.dart';
 import 'package:firebase_api/modules/wallpaper/model/wallpaper_collection_type.dart';
 import 'package:flutter/material.dart';
@@ -33,7 +34,9 @@ class _PublicWallpaperGridViewBuilderState extends State<PublicWallpaperGridView
       builder: (context, wallpapers, child) {
         return Scaffold(
         appBar: AppBar(title: Text("Wallpapers"),),
-        body: ExploreWallpapersGridView(wallpapers: wallpapers));
+        // body: ExploreWallpapersGridView(wallpapers: wallpapers));
+        body: ExploreWallpapersGridViewBuilder(wallpapers: wallpapers,)
+        );
       },
     );
   }
