@@ -48,10 +48,39 @@ class ChatFirestoreService {
     final ref = _client.collection('chats').doc(chatId).collection('messages');
     final docRef = ref.doc();
 
-    final model = MessageModel(id: docRef.id, value: message, sentBy: sender.uid, createdAt: DateTime.now());
+    final model = MessageModel(id: docRef.id, value: message, sentBy: sender.uid, createdAt: DateTime.now(), isSender: true);
 
     await docRef.set(model.toMap());
+  }
 
+  Future<List<MessageModel>> getAllChats(String? chatId)
+  {
+    final ref = _client.collection('chats').
+              doc(chatId).
+              collection('messages').
+              orderBy('createdAt', descending: true);
+
+    final sender = _authService.getUser();
+
+    // final streamSnapshot = ref.snapshots();
+    // final streams = streamSnapshot.asyncMap((snapshot)
+    // {
+    //     final messages = snapshot.docs
+    //         .map((doc) => MessageModel.fromMap(doc.data(), isSender: doc.data()['sentBy'] == sender?.uid 
+    //           )).toList();
+
+    //     return messages;
+    // });
+
+    //below part without stream
+    final messages = ref.get().
+                    then((snapshot) => snapshot.docs
+                    .map((doc) => MessageModel.fromMap(doc.data(), isSender: doc.data()['sentBy'] == sender?.uid 
+                    )).toList());
+
+    return messages;
+
+    // return streams;
 
   }
 

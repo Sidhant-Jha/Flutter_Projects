@@ -32,7 +32,6 @@ class AllChatScreen extends StatelessWidget {
           ],
         ),
       ),
-
     );
   }
 }

@@ -1,3 +1,4 @@
+import 'package:firebase_api/modules/chat/chat/view/widgets/message_list_builder.dart';
 import 'package:firebase_api/modules/chat/chat/view_model/chat_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -18,9 +19,7 @@ class _ChatScreenBodyState extends State<ChatScreenBody> {
     return Column(
       children: [
         Expanded(
-          child: Container(
-            color: Colors.red,
-          )
+          child: MessageListBuilder()
         ),
         Row(
           children: [
